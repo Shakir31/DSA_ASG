@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BorrowRecord.cpp" />
     <ClCompile Include="DSA_ASG.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BorrowRecord.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
