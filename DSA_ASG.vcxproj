@@ -130,10 +130,18 @@
     <ClCompile Include="BorrowRecord.cpp" />
     <ClCompile Include="DSA_ASG.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HashTable.cpp" />
+    <ClCompile Include="List.cpp" />
+    <ClCompile Include="Member.cpp" />
+    <ClCompile Include="Review.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BorrowRecord.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HashTable.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Member.h" />
+    <ClInclude Include="Review.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
