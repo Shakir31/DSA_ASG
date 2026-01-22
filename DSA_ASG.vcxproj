@@ -130,6 +130,7 @@
     <ClCompile Include="BorrowRecord.cpp" />
     <ClCompile Include="DSA_ASG.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Member.cpp" />
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="BorrowRecord.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Member.h" />
