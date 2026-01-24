@@ -1,20 +1,32 @@
-// DSA_ASG.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include <iostream>
+#include <string>
+#include <limits>
+#include "Game.h"
+#include "Member.h"
+#include "GameManager.h"
+#include "HashTable.h"
+#include "BorrowRecord.h"
+#include "Review.h"
+using namespace std;
+
+// Global storage
+const int MAX_GAMES = 1000;
+const int MAX_MEMBERS = 100;
+const int MAX_RECORDS = 1000;
+const int MAX_REVIEWS = 1000;
+Game games[MAX_GAMES];
+Member members[MAX_MEMBERS];
+BorrowRecord records[MAX_RECORDS];
+Review reviews[MAX_REVIEWS];
+int gameCount = 0;
+int memberCount = 0;
+int recordCount = 0;
+int reviewCount = 0;
+HashTable gameHash;
 
 #include <iostream>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    cout << "Hello World!\n";
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
