@@ -237,6 +237,85 @@ void displaySearchResults(Game results[], int count) {
     cout << "--------------------------------------------------------------------------------" << endl;
 }
 
+//REVIEW FUNCTIONS
+bool addReview(string memberID, string gameID, int rating, string reviewText) {
+    if (rating < 1 || rating > 10) {
+        cout << "ERROR: Rating must be between 1 and 10!" << endl;
+        return false;
+    }
+
+    int memberIndex = findMember(memberID);
+    if (memberIndex == -1) {
+        cout << "ERROR: Member not found!" << endl;
+        return false;
+    }
+
+    int gameIndex = gameHash.search(gameID);
+    if (gameIndex == -1) {
+        cout << "ERROR: Game not found!" << endl;
+        return false;
+    }
+
+    reviews[reviewCount] = Review(
+        gameID,
+        memberID,
+        members[memberIndex].getName(),
+        rating,
+        reviewText,
+        getCurrentDate()
+    );
+    reviewCount++;
+
+    cout << "\nSUCCESS: Review added for \"" << games[gameIndex].getTitle() << "\"" << endl;
+    return true;
+}
+
+double calculateAverageRating(string gameID) {
+    int totalRating = 0;
+    int count = 0;
+
+    for (int i = 0; i < reviewCount; i++) {
+        if (reviews[i].getGameID() == gameID) {
+            totalRating += reviews[i].getRating();
+            count++;
+        }
+    }
+
+    if (count == 0) return 0.0;
+    return (double)totalRating / count;
+}
+
+void displayReviewsForGame(string gameID) {
+    int gameIndex = gameHash.search(gameID);
+    if (gameIndex == -1) {
+        cout << "ERROR: Game not found!" << endl;
+        return;
+    }
+
+    cout << "\n======================================" << endl;
+    cout << "Reviews for: " << games[gameIndex].getTitle() << endl;
+    cout << "======================================" << endl;
+
+    int count = 0;
+    int totalRating = 0;
+
+    for (int i = 0; i < reviewCount; i++) {
+        if (reviews[i].getGameID() == gameID) {
+            reviews[i].display();
+            totalRating += reviews[i].getRating();
+            count++;
+        }
+    }
+
+    if (count == 0) {
+        cout << "No reviews yet for this game." << endl;
+    }
+    else {
+        double avgRating = (double)totalRating / count;
+        cout << "\nAverage Rating: " << avgRating << "/10 (" << count << " reviews)" << endl;
+    }
+}
+
 int main()
 {
     cout << "Hello World!\n";
