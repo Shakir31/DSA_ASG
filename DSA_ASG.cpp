@@ -53,6 +53,82 @@ int findMember(string memberID) {
     return -1;
 }
 
+//BORROW AND RETURN FUNCTIONS
+
+bool borrowGame(string memberID, string gameID) {
+    int memberIndex = findMember(memberID);
+    if (memberIndex == -1) {
+        cout << "ERROR: Member " << memberID << " not found!" << endl;
+        return false;
+    }
+
+    int gameIndex = gameHash.search(gameID);
+    if (gameIndex == -1) {
+        cout << "ERROR: Game " << gameID << " not found!" << endl;
+        return false;
+    }
+
+    if (games[gameIndex].getStatus() != "Available") {
+        cout << "ERROR: Game is already borrowed by " << games[gameIndex].getBorrowedBy() << endl;
+        return false;
+    }
+
+    games[gameIndex].setStatus("Borrowed");
+    games[gameIndex].setBorrowedBy(memberID);
+    games[gameIndex].incrementBorrowCount();
+
+    members[memberIndex].addBorrowedGame(gameID);
+
+    records[recordCount] = BorrowRecord(gameID, memberID, getCurrentDate());
+    recordCount++;
+
+    cout << "\nSUCCESS: " << members[memberIndex].getName() << " borrowed \""
+        << games[gameIndex].getTitle() << "\"" << endl;
+
+    return true;
+}
+
+bool returnGame(string gameID) {
+    int gameIndex = gameHash.search(gameID);
+    if (gameIndex == -1) {
+        cout << "ERROR: Game " << gameID << " not found!" << endl;
+        return false;
+    }
+
+    if (games[gameIndex].getStatus() == "Available") {
+        cout << "ERROR: Game is not currently borrowed!" << endl;
+        return false;
+    }
+
+    string memberID = games[gameIndex].getBorrowedBy();
+
+    int memberIndex = findMember(memberID);
+    if (memberIndex == -1) {
+        cout << "ERROR: Member not found!" << endl;
+        return false;
+    }
+
+    games[gameIndex].setStatus("Available");
+    games[gameIndex].setBorrowedBy("");
+
+    members[memberIndex].removeBorrowedGame(gameID);
+
+    for (int i = recordCount - 1; i >= 0; i--) {
+        if (records[i].getGameID() == gameID &&
+            records[i].getMemberID() == memberID &&
+            !records[i].getIsReturned()) {
+            records[i].setReturnDate(getCurrentDate());
+            records[i].markAsReturned();
+            break;
+        }
+    }
+
+    cout << "\nSUCCESS: " << members[memberIndex].getName() << " returned \""
+        << games[gameIndex].getTitle() << "\"" << endl;
+
+    return true;
+}
+
 int main()
 {
     cout << "Hello World!\n";
