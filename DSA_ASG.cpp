@@ -129,6 +129,114 @@ bool returnGame(string gameID) {
     return true;
 }
 
+//SEARCH FUNCTIONS
+void displayGameDetails(string gameID) {
+    int index = gameHash.search(gameID);
+    if (index == -1) {
+        cout << "Game not found!" << endl;
+        return;
+    }
+    games[index].display();
+}
+
+void merge(Game arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    Game* L = new Game[n1];
+    Game* R = new Game[n2];
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (L[i].getYear() <= R[j].getYear()) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+
+    delete[] L;
+    delete[] R;
+}
+
+void mergeSort(Game arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+int searchByPlayerCount(int numPlayers, Game results[], int maxResults) {
+    int count = 0;
+
+    for (int i = 0; i < gameCount && count < maxResults; i++) {
+        if (games[i].getMinPlayers() <= numPlayers &&
+            games[i].getMaxPlayers() >= numPlayers) {
+            results[count] = games[i];
+            count++;
+        }
+    }
+
+    if (count > 0) {
+        mergeSort(results, 0, count - 1);
+    }
+
+    return count;
+}
+
+void displaySearchResults(Game results[], int count) {
+    if (count == 0) {
+        cout << "No games found." << endl;
+        return;
+    }
+
+    cout << "\nFound " << count << " games (sorted by year):\n" << endl;
+    cout << "--------------------------------------------------------------------------------" << endl;
+    cout << "ID    | Title                              | Year | Players | Status" << endl;
+    cout << "--------------------------------------------------------------------------------" << endl;
+    for (int i = 0; i < count; i++) {
+        cout << results[i].getGameID() << " | ";
+
+        string title = results[i].getTitle();
+        if (title.length() > 34) {
+            title = title.substr(0, 31) + "...";
+        }
+        cout << title;
+        for (int j = title.length(); j < 34; j++) cout << " ";
+
+        cout << " | " << results[i].getYear() << " | ";
+        cout << results[i].getMinPlayers() << "-" << results[i].getMaxPlayers();
+        if (results[i].getMaxPlayers() < 10) cout << "  ";
+        else cout << " ";
+        cout << " | " << results[i].getStatus() << endl;
+    }
+    cout << "--------------------------------------------------------------------------------" << endl;
+}
+
 int main()
 {
     cout << "Hello World!\n";
