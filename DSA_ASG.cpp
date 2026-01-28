@@ -316,6 +316,70 @@ void displayReviewsForGame(string gameID) {
     }
 }
 
+//MEMBER FUNCTIONS
+void memberBorrowGame(string memberID) {
+    cout << "\n=== Borrow Game ===" << endl;
+
+    string gameID;
+    cout << "Enter game ID to borrow: ";
+    cin >> gameID;
+    clearInputBuffer();
+
+    borrowGame(memberID, gameID);
+}
+
+void memberReturnGame(string memberID) {
+    cout << "\n=== Return Game ===" << endl;
+
+    // Show member's borrowed games first
+    int memberIndex = findMember(memberID);
+    if (memberIndex != -1) {
+        cout << "\nYour currently borrowed games:" << endl;
+        members[memberIndex].displayBorrowedGames();
+    }
+
+    string gameID;
+    cout << "\nEnter game ID to return: ";
+    cin >> gameID;
+    clearInputBuffer();
+
+    returnGame(gameID);
+}
+
+void displayMemberBorrowedGames(string memberID) {
+    int memberIndex = findMember(memberID);
+    if (memberIndex == -1) {
+        cout << "ERROR: Member not found!" << endl;
+        return;
+    }
+
+    cout << "\n=== Your Borrowed Games ===" << endl;
+    members[memberIndex].display();
+    cout << "\nGame IDs you currently have borrowed:" << endl;
+    members[memberIndex].displayBorrowedGames();
+}
+
+void memberAddReview(string memberID) {
+    cout << "\n=== Write a Review ===" << endl;
+
+    string gameID;
+    int rating;
+    string reviewText;
+
+    cout << "Enter game ID: ";
+    cin >> gameID;
+    clearInputBuffer();
+
+    cout << "Enter rating (1-10): ";
+    cin >> rating;
+    clearInputBuffer();
+
+    cout << "Enter your review: ";
+    getline(cin, reviewText);
+
+    addReview(memberID, gameID, rating, reviewText);
+}
+
 int main()
 {
     cout << "Hello World!\n";
