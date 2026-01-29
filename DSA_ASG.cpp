@@ -331,7 +331,7 @@ void memberBorrowGame(string memberID) {
 void memberReturnGame(string memberID) {
     cout << "\n=== Return Game ===" << endl;
 
-    // Show member's borrowed games first
+    //show member's borrowed games first
     int memberIndex = findMember(memberID);
     if (memberIndex != -1) {
         cout << "\nYour currently borrowed games:" << endl;
@@ -342,6 +342,24 @@ void memberReturnGame(string memberID) {
     cout << "\nEnter game ID to return: ";
     cin >> gameID;
     clearInputBuffer();
+
+    //check if this member borrowed the game
+    int gameIndex = gameHash.search(gameID);
+    if (gameIndex == -1) {
+        cout << "ERROR: Game not found!" << endl;
+        return;
+    }
+
+    if (games[gameIndex].getStatus() == "Available") {
+        cout << "ERROR: This game is not currently borrowed!" << endl;
+        return;
+    }
+
+    if (games[gameIndex].getBorrowedBy() != memberID) {
+        cout << "ERROR: You cannot return this game!" << endl;
+        cout << "This game was borrowed by member " << games[gameIndex].getBorrowedBy() << endl;
+        return;
+    }
 
     returnGame(gameID);
 }
@@ -380,7 +398,210 @@ void memberAddReview(string memberID) {
     addReview(memberID, gameID, rating, reviewText);
 }
 
+//SEARCH MENU FUNCTIONS
+void searchGamesByPlayers() {
+    cout << "\n=== Search Games by Player Count ===" << endl;
+
+    int numPlayers;
+    cout << "Enter number of players: ";
+    cin >> numPlayers;
+    clearInputBuffer();
+
+    Game results[MAX_GAMES];
+    int count = searchByPlayerCount(numPlayers, results, MAX_GAMES);
+
+    displaySearchResults(results, count);
+}
+
+void displayGameWithReviews() {
+    cout << "\n=== View Game Details ===" << endl;
+
+    string gameID;
+    cout << "Enter game ID: ";
+    cin >> gameID;
+    clearInputBuffer();
+
+    displayGameDetails(gameID);
+
+    double avgRating = calculateAverageRating(gameID);
+    if (avgRating > 0) {
+        cout << "\nAverage Rating: " << avgRating << "/10" << endl;
+    }
+
+    cout << "\nWould you like to see reviews? (y/n): ";
+    char choice;
+    cin >> choice;
+    clearInputBuffer();
+
+    if (choice == 'y' || choice == 'Y') {
+        displayReviewsForGame(gameID);
+    }
+}
+
+//MENU FUNCTIONS
+void adminMenu() {
+    cout << "\n======================================" << endl;
+    cout << "         ADMIN MENU (HAVENT IMPLEMENT)" << endl;
+    cout << "======================================" << endl;
+    cout << "1. Add New Game" << endl;
+    cout << "2. Remove Game" << endl;
+    cout << "3. Add New Member" << endl;
+    cout << "4. Display All Transactions" << endl;
+    cout << "5. Back to Main Menu" << endl;
+    cout << "======================================" << endl;
+    pauseScreen();
+}
+
+void memberMenu() {
+    string memberID;
+
+    cout << "\n=== Member Login ===" << endl;
+    cout << "Enter your Member ID: ";
+    cin >> memberID;
+    clearInputBuffer();
+
+    int memberIndex = findMember(memberID);
+    if (memberIndex == -1) {
+        cout << "ERROR: Member ID not found!" << endl;
+        pauseScreen();
+        return;
+    }
+
+    cout << "\nWelcome, " << members[memberIndex].getName() << "!" << endl;
+
+    int choice;
+
+    do {
+        cout << "\n======================================" << endl;
+        cout << "         MEMBER MENU" << endl;
+        cout << "======================================" << endl;
+        cout << "1. Borrow Game" << endl;
+        cout << "2. Return Game" << endl;
+        cout << "3. View My Borrowed Games" << endl;
+        cout << "4. Write a Review" << endl;
+        cout << "5. Logout" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+        clearInputBuffer();
+
+        switch (choice) {
+        case 1:
+            memberBorrowGame(memberID);
+            pauseScreen();
+            break;
+        case 2:
+            memberReturnGame(memberID);
+            pauseScreen();
+            break;
+        case 3:
+            displayMemberBorrowedGames(memberID);
+            pauseScreen();
+            break;
+        case 4:
+            memberAddReview(memberID);
+            pauseScreen();
+            break;
+        case 5:
+            cout << "Logging out..." << endl;
+            break;
+        default:
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 5);
+}
+
+void searchMenu() {
+    int choice;
+
+    do {
+        cout << "\n======================================" << endl;
+        cout << "      SEARCH & DISPLAY MENU" << endl;
+        cout << "======================================" << endl;
+        cout << "1. View Game Details" << endl;
+        cout << "2. Search Games by Player Count" << endl;
+        cout << "3. Back to Main Menu" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+        clearInputBuffer();
+
+        switch (choice) {
+        case 1:
+            displayGameWithReviews();
+            pauseScreen();
+            break;
+        case 2:
+            searchGamesByPlayers();
+            pauseScreen();
+            break;
+        case 3:
+            cout << "Returning to main menu..." << endl;
+            break;
+        default:
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 3);
+}
+
+void mainMenu() {
+    int choice;
+
+    do {
+        cout << "\n======================================" << endl;
+        cout << "   NPTTGC BOARD GAME MANAGEMENT" << endl;
+        cout << "======================================" << endl;
+        cout << "1. Admin Menu" << endl;
+        cout << "2. Member Menu" << endl;
+        cout << "3. Search & Display" << endl;
+        cout << "4. Exit" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+        clearInputBuffer();
+
+        switch (choice) {
+        case 1:
+            adminMenu();
+            break;
+        case 2:
+            memberMenu();
+            break;
+        case 3:
+            searchMenu();
+            break;
+        case 4:
+            cout << "\nThank you for using NPTTGC Board Game Management System!" << endl;
+            break;
+        default:
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 4);
+}
+
 int main()
 {
-    cout << "Hello World!\n";
+    //load games from CSV
+    cout << "Loading games from database..." << endl;
+    gameCount = loadGamesFromCSV("C:\\Users\\milok\\Downloads\\games.csv", games, MAX_GAMES);
+
+    if (gameCount == 0) {
+        cout << "Failed to load games. Exiting." << endl;
+        return 1;
+    }
+
+    //build hash table
+    buildHashTable(games, gameCount, gameHash);
+
+    //create some test members
+    members[0] = Member("M001", "Alice Tan", "alice@email.com");
+    members[1] = Member("M002", "Bob Lee", "bob@email.com");
+    members[2] = Member("M003", "Charlie Wong", "charlie@email.com");
+    memberCount = 3;
+
+    cout << "\nSystem initialized successfully!" << endl;
+    cout << "Test members created: M001, M002, M003" << endl;
+
+    //start main menu
+    mainMenu();
 }
