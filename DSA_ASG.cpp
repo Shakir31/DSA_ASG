@@ -274,9 +274,7 @@ Function : merge
 Description: The merge step of Merge Sort.  Merges two
              sorted sub-arrays arr[left..mid] and
              arr[mid+1..right] according to the current
-             sortMode.  When sortMode is SORT_BY_AVG_RATING
-             the parallel sortAvgRatings[] array is also
-             merged so the ratings stay in sync.
+             sortMode.
 Input    : Game arr[]  – array being sorted
            int  left   – start index
            int  mid    – midpoint index
@@ -616,81 +614,6 @@ void displayMemberSummary(string memberID) {
     cout << "======================================" << endl;
 }
 
-/*
-============================================================
-Function : displayAllTransactions
-Description: Admin view – prints every borrow/return record
-             in the system, with game title, member name,
-             dates and status.  Ends with aggregate totals.
-Input    : None
-Return   : None
-============================================================
-*/
-void displayAllTransactions() {
-    cout << "\n======================================" << endl;
-    cout << "   All Borrow / Return Transactions" << endl;
-    cout << "======================================" << endl;
-
-    if (recordCount == 0) {
-        cout << "No transactions recorded yet." << endl;
-        pauseScreen();
-        return;
-    }
-
-    int totalReturned = 0;
-    int totalBorrowed = 0;   // still out
-
-    cout << "\n--------------------------------------------------------------------------------" << endl;
-    cout << "# | Game ID | Game Title                         | Member      | Borrowed   | Returned   | Status" << endl;
-    cout << "--------------------------------------------------------------------------------" << endl;
-
-    for (int i = 0; i < recordCount; i++) {
-        // Game title
-        int gIdx = gameHash.search(records[i].getGameID());
-        string title = (gIdx != -1) ? games[gIdx].getTitle() : "Unknown";
-        if (title.length() > 34) title = title.substr(0, 31) + "...";
-
-        // Member name
-        int mIdx = findMember(records[i].getMemberID());
-        string mName = (mIdx != -1) ? members[mIdx].getName() : records[i].getMemberID();
-        if (mName.length() > 11) mName = mName.substr(0, 8) + "...";
-
-        // Row number
-        int num = i + 1;
-        cout << num;
-        if (num < 10)  cout << " ";
-        if (num < 100) cout << " ";                // keep 3-char width
-
-        cout << "| " << records[i].getGameID() << " | ";
-
-        // Title
-        cout << title;
-        for (int j = (int)title.length(); j < 34; j++) cout << " ";
-
-        // Member
-        cout << " | " << mName;
-        for (int j = (int)mName.length(); j < 11; j++) cout << " ";
-
-        // Borrow date
-        cout << " | " << records[i].getBorrowDate() << " | ";
-
-        if (records[i].getIsReturned()) {
-            totalReturned++;
-            cout << records[i].getReturnDate() << " | Returned" << endl;
-        }
-        else {
-            totalBorrowed++;
-            cout << "  --      | Borrowed" << endl;
-        }
-    }
-
-    cout << "--------------------------------------------------------------------------------" << endl;
-    cout << "\nSummary:" << endl;
-    cout << "  Total transactions      : " << recordCount << endl;
-    cout << "  Currently borrowed      : " << totalBorrowed << endl;
-    cout << "  Returned                : " << totalReturned << endl;
-    cout << "======================================" << endl;
-}
 
 // ============= ADMIN FUNCTIONS =============
 // addNewGame, removeGame, addNewMember – to be implemented by teammate.
@@ -799,8 +722,7 @@ void memberAddReview(string memberID) {
 ============================================================
 Function : searchGamesByPlayers
 Description: Asks for a player count and a sort preference,
-             collects matching games, populates the parallel
-             sortAvgRatings[] array if needed, runs merge
+             collects matching games, runs merge
              sort with the chosen mode, then displays.
 Input    : None (reads from cin)
 Return   : None
