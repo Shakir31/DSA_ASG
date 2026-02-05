@@ -201,7 +201,7 @@ Description: Validates the game exists and is currently
              borrowed, then updates the game status, the
              member's linked list, and marks the matching
              BorrowRecord as returned with today's date.
-Input    : string gameID – game to return
+Input    : string gameID - game to return
 Return   : bool – true if return succeeded, false otherwise
 ============================================================
 */
