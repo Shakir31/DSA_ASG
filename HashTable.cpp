@@ -157,6 +157,17 @@ void HashTable::display() {
         }
     }
 }
+
+/*
+============================================================
+Function    : clear
+Description : Clears all entries from the hash table by
+              deleting all nodes and resetting buckets to
+              nullptr. Used when rebuilding the hash table.
+Input       : None
+Return      : None
+============================================================
+*/
 void HashTable::clear() {
     for (int i = 0; i < TABLE_SIZE; i++) {
         HashNode* current = table[i];

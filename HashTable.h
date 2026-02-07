@@ -1,6 +1,10 @@
-﻿#pragma once
+﻿#ifndef HASHTABLE_H
+#define HASHTABLE_H
+
 #include <string>
 using namespace std;
+
+const int TABLE_SIZE = 101;
 
 struct HashNode {
     string gameID;
@@ -10,20 +14,17 @@ struct HashNode {
 
 class HashTable {
 private:
-    static const int TABLE_SIZE = 101;
     HashNode* table[TABLE_SIZE];
-
     int hashFunction(string key);
 
 public:
     HashTable();
     ~HashTable();
-
     void insert(string gameID, int arrayIndex);
     int search(string gameID);
     bool remove(string gameID);
     void display();
-
-    // ✅ YOU MUST ADD THIS (HashTable.cpp already has clear())
-    void clear();
+    void clear();  // Add this method
 };
+
+#endif

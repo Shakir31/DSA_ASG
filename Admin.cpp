@@ -1,7 +1,7 @@
 ﻿#include "Admin.h"
 #include <iostream>
 #include <limits>
-#include <cctype>   // tolower
+#include <cctype>
 using namespace std;
 
 static void clearCin() {
@@ -132,7 +132,7 @@ void adminAddGame(Game games[], int& gameCount, int maxGames, HashTable& gameHas
     cout << "\n=== Admin: Add New Board Game ===\n";
 
     if (gameCount >= maxGames) {
-        cout << "❌ Cannot add. Game storage is full.\n";
+        cout << "ERROR: Cannot add. Game storage is full.\n";
         return;
     }
 
@@ -141,43 +141,43 @@ void adminAddGame(Game games[], int& gameCount, int maxGames, HashTable& gameHas
 
     cout << "Game ID: ";
     getline(cin, id);
-    if (id.empty()) { cout << "❌ Game ID cannot be empty.\n"; return; }
+    if (id.empty()) { cout << "ERROR: Game ID cannot be empty.\n"; return; }
 
     if (gameHash.search(id) != -1) {
-        cout << "❌ Game ID already exists.\n";
+        cout << "ERROR: Game ID already exists.\n";
         return;
     }
 
     cout << "Title: ";
     getline(cin, title);
-    if (title.empty()) { cout << "❌ Title cannot be empty.\n"; return; }
+    if (title.empty()) { cout << "ERROR: Title cannot be empty.\n"; return; }
 
     cout << "Min Players: ";
-    if (!(cin >> minP)) { clearCin(); cout << "❌ Invalid input.\n"; return; }
+    if (!(cin >> minP)) { clearCin(); cout << "ERROR: Invalid input.\n"; return; }
 
     cout << "Max Players: ";
-    if (!(cin >> maxP)) { clearCin(); cout << "❌ Invalid input.\n"; return; }
+    if (!(cin >> maxP)) { clearCin(); cout << "ERROR: Invalid input.\n"; return; }
 
     cout << "Min Playtime (mins): ";
-    if (!(cin >> minT)) { clearCin(); cout << "❌ Invalid input.\n"; return; }
+    if (!(cin >> minT)) { clearCin(); cout << "ERROR: Invalid input.\n"; return; }
 
     cout << "Max Playtime (mins): ";
-    if (!(cin >> maxT)) { clearCin(); cout << "❌ Invalid input.\n"; return; }
+    if (!(cin >> maxT)) { clearCin(); cout << "ERROR: Invalid input.\n"; return; }
 
     cout << "Year Published: ";
-    if (!(cin >> year)) { clearCin(); cout << "❌ Invalid input.\n"; return; }
+    if (!(cin >> year)) { clearCin(); cout << "ERROR: Invalid input.\n"; return; }
 
     clearCin();
 
-    if (minP <= 0 || maxP <= 0 || minP > maxP) { cout << "❌ Invalid player range.\n"; return; }
-    if (minT <= 0 || maxT <= 0 || minT > maxT) { cout << "❌ Invalid playtime range.\n"; return; }
-    if (year <= 0) { cout << "❌ Invalid year.\n"; return; }
+    if (minP <= 0 || maxP <= 0 || minP > maxP) { cout << "ERROR: Invalid player range.\n"; return; }
+    if (minT <= 0 || maxT <= 0 || minT > maxT) { cout << "ERROR: Invalid playtime range.\n"; return; }
+    if (year <= 0) { cout << "ERROR: Invalid year.\n"; return; }
 
     games[gameCount] = Game(id, title, minP, maxP, minT, maxT, year);
     gameHash.insert(id, gameCount);
     gameCount++;
 
-    cout << "✅ Game added.\n";
+    cout << "SUCCESS: Game added.\n";
 }
 
 // ===================== ADMIN: REMOVE GAME =====================
@@ -187,13 +187,13 @@ void adminRemoveGame(Game games[], int& gameCount, HashTable& gameHash) {
     string id;
     cout << "Game ID to remove: ";
     getline(cin, id);
-    if (id.empty()) { cout << "❌ Game ID cannot be empty.\n"; return; }
+    if (id.empty()) { cout << "ERROR: Game ID cannot be empty.\n"; return; }
 
     int idx = gameHash.search(id);
-    if (idx == -1) { cout << "❌ Game not found.\n"; return; }
+    if (idx == -1) { cout << "ERROR: Game not found.\n"; return; }
 
     if (games[idx].getStatus() == "Borrowed") {
-        cout << "❌ Cannot remove. Game is borrowed by: " << games[idx].getBorrowedBy() << "\n";
+        cout << "ERROR: Cannot remove. Game is borrowed by: " << games[idx].getBorrowedBy() << "\n";
         return;
     }
 
@@ -203,7 +203,7 @@ void adminRemoveGame(Game games[], int& gameCount, HashTable& gameHash) {
     gameCount--;
 
     rebuildGameHash(gameHash, games, gameCount);
-    cout << "✅ Game removed.\n";
+    cout << "SUCCESS: Game removed.\n";
 }
 
 // ===================== ADMIN: ADD MEMBER =====================
@@ -211,7 +211,7 @@ void adminAddMember(Member members[], int& memberCount, int maxMembers) {
     cout << "\n=== Admin: Add New Member ===\n";
 
     if (memberCount >= maxMembers) {
-        cout << "❌ Cannot add. Member storage is full.\n";
+        cout << "ERROR: Cannot add. Member storage is full.\n";
         return;
     }
 
@@ -219,30 +219,30 @@ void adminAddMember(Member members[], int& memberCount, int maxMembers) {
 
     cout << "Member ID: ";
     getline(cin, id);
-    if (id.empty()) { cout << "❌ Member ID cannot be empty.\n"; return; }
+    if (id.empty()) { cout << "ERROR: Member ID cannot be empty.\n"; return; }
 
     for (int i = 0; i < memberCount; i++) {
         if (members[i].getMemberID() == id) {
-            cout << "❌ Member ID already exists.\n";
+            cout << "ERROR: Member ID already exists.\n";
             return;
         }
     }
 
     cout << "Name: ";
     getline(cin, name);
-    if (name.empty()) { cout << "❌ Name cannot be empty.\n"; return; }
+    if (name.empty()) { cout << "ERROR: Name cannot be empty.\n"; return; }
 
     cout << "Email: ";
     getline(cin, email);
-    if (email.empty()) { cout << "❌ Email cannot be empty.\n"; return; }
+    if (email.empty()) { cout << "ERROR: Email cannot be empty.\n"; return; }
 
     members[memberCount] = Member(id, name, email);
     memberCount++;
 
-    cout << "✅ Member added.\n";
+    cout << "SUCCESS: Member added.\n";
 }
 
-// ===================== ADMIN: SUMMARY (no top 5 here anymore) =====================
+// ===================== ADMIN: SUMMARY =====================
 void adminDisplaySummary(Game games[], int gameCount) {
     cout << "\n=== Admin: Summary of Games Borrowed/Returned ===\n";
 
@@ -277,7 +277,7 @@ void adminDisplaySummary(Game games[], int gameCount) {
     cout << "============================================\n";
 }
 
-// ===================== ✅ NEW: DISPLAY ALL SORTED (submenu) =====================
+// ===================== DISPLAY ALL GAMES BY BORROW COUNT =====================
 void adminDisplayAllGamesSorted(Game games[], int gameCount) {
     if (gameCount <= 0) {
         cout << "No games to display.\n";
@@ -287,18 +287,16 @@ void adminDisplayAllGamesSorted(Game games[], int gameCount) {
     int choice;
     do {
         cout << "\n======================================\n";
-        cout << "   DISPLAY ALL GAMES (SORT OPTIONS)\n";
+        cout << "   DISPLAY ALL GAMES BY BORROW COUNT\n";
         cout << "======================================\n";
-        cout << "1) Title A -> Z\n";
-        cout << "2) Title Z -> A\n";
-        cout << "3) BorrowCount High -> Low\n";
-        cout << "4) BorrowCount Low -> High\n";
+        cout << "1) Most Borrowed -> Least Borrowed\n";
+        cout << "2) Least Borrowed -> Most Borrowed\n";
         cout << "0) Back\n";
         cout << "Choice: ";
 
         if (!(cin >> choice)) {
             clearCin();
-            cout << "❌ Invalid input.\n";
+            cout << "ERROR: Invalid input.\n";
             continue;
         }
         clearCin();
@@ -310,27 +308,17 @@ void adminDisplayAllGamesSorted(Game games[], int gameCount) {
 
         switch (choice) {
         case 1:
-            mergeSortByTitle(temp, 0, gameCount - 1, true);
-            cout << "\n=== ALL GAMES SORTED BY TITLE (A -> Z) ===\n";
-            printGameList(temp, gameCount);
-            break;
-        case 2:
-            mergeSortByTitle(temp, 0, gameCount - 1, false);
-            cout << "\n=== ALL GAMES SORTED BY TITLE (Z -> A) ===\n";
-            printGameList(temp, gameCount);
-            break;
-        case 3:
             mergeSortByBorrowCount(temp, 0, gameCount - 1, true);
             cout << "\n=== ALL GAMES SORTED BY BORROWCOUNT (HIGH -> LOW) ===\n";
             printGameList(temp, gameCount);
             break;
-        case 4:
+        case 2:
             mergeSortByBorrowCount(temp, 0, gameCount - 1, false);
             cout << "\n=== ALL GAMES SORTED BY BORROWCOUNT (LOW -> HIGH) ===\n";
             printGameList(temp, gameCount);
             break;
         default:
-            cout << "❌ Invalid option.\n";
+            cout << "ERROR: Invalid option.\n";
             break;
         }
 
