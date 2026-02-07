@@ -39,70 +39,79 @@ int loadGamesFromCSV(string filename, Game games[], int maxSize) {
         cout << "ERROR: Cannot open " << filename << endl;
         return 0;
     }
+
     string line;
-    getline(file, line); // Skip header
+    getline(file, line); // header
+
     int count = 0;
-    int gameCounter = 1;
+    int autoIdCounter = 1;
+
     while (getline(file, line) && count < maxSize) {
-        // Skip empty lines
         line = trim(line);
-        if (line.empty() || line.length() < 5) {
-            continue;
-        }
+        if (line.empty()) continue;
+
         stringstream ss(line);
-        string name, minP, maxP, maxTime, minTime, year;
-        // Parse CSV
-        getline(ss, name, ',');
-        getline(ss, minP, ',');
-        getline(ss, maxP, ',');
-        getline(ss, maxTime, ',');
-        getline(ss, minTime, ',');
-        getline(ss, year, ',');
-        // Clean name
-        name = trim(name);
-        if (name.empty()) continue;
-        // Remove quotes
-        if (name.length() > 0 && name[0] == '"') {
-            name = name.substr(1, name.length() - 2);
+        string c1, c2, c3, c4, c5, c6, c7;
+
+        getline(ss, c1, ','); // gameID OR title
+        getline(ss, c2, ',');
+        getline(ss, c3, ',');
+        getline(ss, c4, ',');
+        getline(ss, c5, ',');
+        getline(ss, c6, ',');
+        getline(ss, c7, ',');
+
+        c1 = trim(c1); c2 = trim(c2); c3 = trim(c3);
+        c4 = trim(c4); c5 = trim(c5); c6 = trim(c6); c7 = trim(c7);
+
+        bool newFormat = !c7.empty();
+
+        string gameID, title, minP, maxP, maxTime, minTime, year;
+
+        if (newFormat) {
+            gameID = c1;
+            title = c2;
+            minP = c3;
+            maxP = c4;
+            maxTime = c5;
+            minTime = c6;
+            year = c7;
         }
-        // Validate we have all fields
-        minP = trim(minP);
-        maxP = trim(maxP);
-        minTime = trim(minTime);
-        maxTime = trim(maxTime);
-        year = trim(year);
-        if (minP.empty() || maxP.empty() || year.empty()) {
-            continue; // Skip this line
+        else {
+            title = c1;
+            minP = c2;
+            maxP = c3;
+            maxTime = c4;
+            minTime = c5;
+            year = c6;
+
+            gameID = "G";
+            if (autoIdCounter < 10) gameID += "00";
+            else if (autoIdCounter < 100) gameID += "0";
+            gameID += to_string(autoIdCounter++);
         }
-        // Generate Game ID
-        string gameID = "G";
-        if (gameCounter < 10) gameID += "00";
-        else if (gameCounter < 100) gameID += "0";
-        gameID += to_string(gameCounter);
-        // Convert to integers with error checking
-        int minPlayers = 0;
-        int maxPlayers = 0;
-        int minPlaytime = 0;
-        int maxPlaytime = 0;
-        int yearPub = 0;
+
+        if (!title.empty() && title.front() == '"' && title.back() == '"') {
+            title = title.substr(1, title.length() - 2);
+        }
+
         try {
-            minPlayers = stoi(minP);
-            maxPlayers = stoi(maxP);
-            minPlaytime = (minTime.empty() ? 0 : stoi(minTime));
-            maxPlaytime = (maxTime.empty() ? 0 : stoi(maxTime));
-            yearPub = stoi(year);
+            games[count++] = Game(
+                gameID,
+                title,
+                stoi(minP),
+                stoi(maxP),
+                stoi(minTime),
+                stoi(maxTime),
+                stoi(year)
+            );
         }
         catch (...) {
-            // Skip this game if conversion fails
             continue;
         }
-        // Create game object
-        games[count] = Game(gameID, name, minPlayers, maxPlayers, minPlaytime, maxPlaytime, yearPub);
-        count++;
-        gameCounter++;
     }
-    file.close();
-    cout << "\n** Loaded " << count << " games successfully! **\n" << endl;
+
+    cout << "\n*** Loaded " << count << " games successfully! ***\n";
     return count;
 }
 

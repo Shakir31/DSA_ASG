@@ -12,6 +12,7 @@ Features Highlighted:
 - Merge Sort with user-selectable sort key (Year / Title)
 - Game Reviews: write, display, average rating
 - Full borrow/return summary for members and admin
+- Advanced Feature (Ethan): Record game play session (players + winner)
 ============================================================
 */
 
@@ -44,6 +45,22 @@ int gameCount = 0;
 int memberCount = 0;
 int recordCount = 0;
 int reviewCount = 0;
+
+// ============= ADVANCED FEATURE: PLAY RECORDING (ARRAY) =============
+const int MAX_PLAY_RECORDS = 2000;
+const int MAX_SESSION_PLAYERS = 8;
+
+struct PlayRecord {
+    string gameID;
+    int numPlayers;
+    string playerIDs[MAX_SESSION_PLAYERS];
+    string winnerID;
+    string recordedBy;
+    string timestamp;   // YYYY-MM-DD HH:MM
+};
+
+PlayRecord playRecords[MAX_PLAY_RECORDS];
+int playRecordCount = 0;
 
 HashTable gameHash;
 
@@ -139,20 +156,168 @@ double calculateAverageRating(string gameID) {
     return (double)totalRating / count;
 }
 
+// ============= ADVANCED FEATURE: PLAY RECORDING FUNCTIONS =============
+
+bool memberExistsByID(const string& memberID) {
+    return findMember(memberID) != -1;
+}
+
+bool getGameMinMaxPlayers(const string& gameID, int& minP, int& maxP) {
+    int idx = gameHash.search(gameID);
+    if (idx == -1) return false;
+    minP = games[idx].getMinPlayers();
+    maxP = games[idx].getMaxPlayers();
+    return true;
+}
+
+bool isInPlayersList(const string players[], int n, const string& id) {
+    for (int i = 0; i < n; i++) {
+        if (players[i] == id) return true;
+    }
+    return false;
+}
+
+string getCurrentTimestamp() {
+    time_t now = time(NULL);
+    struct tm t;
+    localtime_s(&t, &now);
+    char buf[32];
+    strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M", &t);
+    return string(buf);
+}
+
+void recordPlaySession(const string& currentMemberID) {
+    if (playRecordCount >= MAX_PLAY_RECORDS) {
+        cout << "ERROR: Play record storage is full.\n";
+        return;
+    }
+
+    cout << "\n=== Record Game Play Session ===\n";
+
+    string gameID;
+    cout << "Enter Game ID: ";
+    cin >> gameID;
+    clearInputBuffer();
+
+    int minP, maxP;
+    if (!getGameMinMaxPlayers(gameID, minP, maxP)) {
+        cout << "ERROR: Game not found!\n";
+        return;
+    }
+
+    int n;
+    cout << "Number of players (" << minP << " to " << maxP << "): ";
+    if (!(cin >> n)) {
+        clearInputBuffer();
+        cout << "ERROR: Invalid input.\n";
+        return;
+    }
+    clearInputBuffer();
+
+    if (n < minP || n > maxP || n > MAX_SESSION_PLAYERS) {
+        cout << "ERROR: Invalid number of players.\n";
+        return;
+    }
+
+    string players[MAX_SESSION_PLAYERS];
+
+    for (int i = 0; i < n; i++) {
+        cout << "Enter Member ID for Player " << (i + 1) << ": ";
+        cin >> players[i];
+        clearInputBuffer();
+
+        if (!memberExistsByID(players[i])) {
+            cout << "ERROR: Member ID not found.\n";
+            return;
+        }
+
+        for (int j = 0; j < i; j++) {
+            if (players[j] == players[i]) {
+                cout << "ERROR: Duplicate Member ID entered.\n";
+                return;
+            }
+        }
+    }
+
+    string winner;
+    cout << "Enter Winner Member ID: ";
+    cin >> winner;
+    clearInputBuffer();
+
+    if (!memberExistsByID(winner)) {
+        cout << "ERROR: Winner Member ID not found.\n";
+        return;
+    }
+
+    if (!isInPlayersList(players, n, winner)) {
+        cout << "ERROR: Winner must be one of the players entered.\n";
+        return;
+    }
+
+    PlayRecord pr;
+    pr.gameID = gameID;
+    pr.numPlayers = n;
+    for (int i = 0; i < n; i++) pr.playerIDs[i] = players[i];
+    pr.winnerID = winner;
+    pr.recordedBy = currentMemberID;
+    pr.timestamp = getCurrentTimestamp();
+
+    playRecords[playRecordCount++] = pr;
+
+    cout << "SUCCESS: Play session recorded.\n";
+}
+
+void viewMyPlayHistory(const string& memberID) {
+    cout << "\n=== My Play History (" << memberID << ") ===\n";
+    bool found = false;
+
+    for (int i = 0; i < playRecordCount; i++) {
+        for (int p = 0; p < playRecords[i].numPlayers; p++) {
+            if (playRecords[i].playerIDs[p] == memberID) {
+                found = true;
+                cout << playRecords[i].timestamp
+                    << " | Game: " << playRecords[i].gameID
+                    << " | Winner: " << playRecords[i].winnerID
+                    << " | Recorded By: " << playRecords[i].recordedBy << "\n";
+                break;
+            }
+        }
+    }
+
+    if (!found) cout << "No play sessions found.\n";
+}
+
+void viewGamePlayHistory() {
+    cout << "\n=== View Game Play History ===\n";
+
+    string gameID;
+    cout << "Enter Game ID: ";
+    cin >> gameID;
+    clearInputBuffer();
+
+    bool found = false;
+    cout << "\n=== Play History for Game " << gameID << " ===\n";
+
+    for (int i = 0; i < playRecordCount; i++) {
+        if (playRecords[i].gameID == gameID) {
+            found = true;
+            cout << playRecords[i].timestamp
+                << " | Winner: " << playRecords[i].winnerID
+                << " | Players: ";
+
+            for (int p = 0; p < playRecords[i].numPlayers; p++) {
+                cout << playRecords[i].playerIDs[p];
+                if (p != playRecords[i].numPlayers - 1) cout << ", ";
+            }
+            cout << " | Recorded By: " << playRecords[i].recordedBy << "\n";
+        }
+    }
+
+    if (!found) cout << "No play sessions recorded for this game.\n";
+}
+
 // ============= BORROW / RETURN FUNCTIONS =============
 
-/*
-============================================================
-Function    : borrowGame
-Description : Validates that both the member and game exist,
-              checks the game is available, then updates the
-              game status, the member's borrowed-game list,
-              and appends a new BorrowRecord.
-Input       : string memberID - borrower's ID
-              string gameID - game to borrow
-Return      : bool - true if borrow succeeded, false otherwise
-============================================================
-*/
 bool borrowGame(string memberID, string gameID) {
     int memberIndex = findMember(memberID);
     if (memberIndex == -1) {
@@ -187,17 +352,6 @@ bool borrowGame(string memberID, string gameID) {
     return true;
 }
 
-/*
-============================================================
-Function    : returnGame
-Description : Validates the game exists and is currently
-              borrowed, then updates the game status, the
-              member's linked list, and marks the matching
-              BorrowRecord as returned with today's date.
-Input       : string gameID - game to return
-Return      : bool - true if return succeeded, false otherwise
-============================================================
-*/
 bool returnGame(string gameID) {
     int gameIndex = gameHash.search(gameID);
     if (gameIndex == -1) {
@@ -240,15 +394,6 @@ bool returnGame(string gameID) {
 
 // ============= SEARCH / SORT FUNCTIONS =============
 
-/*
-============================================================
-Function    : displayGameDetails
-Description : Looks up a game by ID via the hash table and
-              calls its display() method.
-Input       : string gameID - the game to display
-Return      : None
-============================================================
-*/
 void displayGameDetails(string gameID) {
     int index = gameHash.search(gameID);
     if (index == -1) {
@@ -258,19 +403,6 @@ void displayGameDetails(string gameID) {
     games[index].display();
 }
 
-/*
-============================================================
-Function    : merge
-Description : The merge step of Merge Sort. Merges two
-              sorted sub-arrays according to the sort mode.
-Input       : Game arr[] - array being sorted
-              int left - start index
-              int mid - midpoint index
-              int right - end index
-              SortMode mode - which key to compare on
-Return      : None
-============================================================
-*/
 void merge(Game arr[], int left, int mid, int right, SortMode mode) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -287,7 +419,6 @@ void merge(Game arr[], int left, int mid, int right, SortMode mode) {
         bool takeLeft = false;
 
         if (mode == SORT_BY_YEAR) {
-            // Ascending by year; break ties alphabetically by title
             if (L[i].getYear() < R[j].getYear())
                 takeLeft = true;
             else if (L[i].getYear() == R[j].getYear())
@@ -296,18 +427,11 @@ void merge(Game arr[], int left, int mid, int right, SortMode mode) {
                 takeLeft = false;
         }
         else {   // SORT_BY_TITLE
-            // Ascending alphabetical by title
             takeLeft = (L[i].getTitle() <= R[j].getTitle());
         }
 
-        if (takeLeft) {
-            arr[k] = L[i];
-            i++;
-        }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
+        if (takeLeft) { arr[k] = L[i]; i++; }
+        else { arr[k] = R[j]; j++; }
         k++;
     }
 
@@ -318,18 +442,6 @@ void merge(Game arr[], int left, int mid, int right, SortMode mode) {
     delete[] R;
 }
 
-/*
-============================================================
-Function    : mergeSort
-Description : Recursive Merge Sort. Divides arr[left..right]
-              in half, sorts each half, then merges.
-Input       : Game arr[] - array being sorted
-              int left - start index of sub-array
-              int right - end index of sub-array
-              SortMode mode - which key to compare on
-Return      : None
-============================================================
-*/
 void mergeSort(Game arr[], int left, int right, SortMode mode) {
     if (left < right) {
         int mid = left + (right - left) / 2;
@@ -339,20 +451,6 @@ void mergeSort(Game arr[], int left, int right, SortMode mode) {
     }
 }
 
-/*
-============================================================
-Function    : searchByPlayerCount
-Description : Linear scan through games[] collecting every
-              game whose player range includes numPlayers.
-              Results are copied into the caller-supplied
-              results[] array (up to maxResults entries).
-              Does NOT sort - the caller chooses sort order.
-Input       : int numPlayers - target player count
-              Game results[] - output array for matches
-              int maxResults - capacity of results[]
-Return      : int - number of games stored in results[]
-============================================================
-*/
 int searchByPlayerCount(int numPlayers, Game results[], int maxResults) {
     int count = 0;
 
@@ -367,17 +465,6 @@ int searchByPlayerCount(int numPlayers, Game results[], int maxResults) {
     return count;
 }
 
-/*
-============================================================
-Function    : displaySearchResults
-Description : Prints the search-results table with columns
-              for ID, Title, Year, Players, Avg Rating and
-              Status.
-Input       : Game results[] - array of games to display
-              int count - number of valid entries
-Return      : None
-============================================================
-*/
 void displaySearchResults(Game results[], int count) {
     if (count == 0) {
         cout << "No games found." << endl;
@@ -425,18 +512,6 @@ void displaySearchResults(Game results[], int count) {
 
 // ============= REVIEW FUNCTIONS =============
 
-/*
-============================================================
-Function    : addReview
-Description : Validates rating range, member and game, then
-              stores a new Review in the global reviews[].
-Input       : string memberID - reviewer's member ID
-              string gameID - game being reviewed
-              int rating - score 1-10
-              string reviewText - the review body
-Return      : bool - true if review was saved, false on error
-============================================================
-*/
 bool addReview(string memberID, string gameID, int rating, string reviewText) {
     if (rating < 1 || rating > 10) {
         cout << "ERROR: Rating must be between 1 and 10!" << endl;
@@ -469,15 +544,6 @@ bool addReview(string memberID, string gameID, int rating, string reviewText) {
     return true;
 }
 
-/*
-============================================================
-Function    : displayReviewsForGame
-Description : Prints every review stored for the given game,
-              followed by the computed average rating.
-Input       : string gameID - the game whose reviews to show
-Return      : None
-============================================================
-*/
 void displayReviewsForGame(string gameID) {
     int gameIndex = gameHash.search(gameID);
     if (gameIndex == -1) {
@@ -511,16 +577,6 @@ void displayReviewsForGame(string gameID) {
 
 // ============= SUMMARY FUNCTIONS =============
 
-/*
-============================================================
-Function    : displayMemberSummary
-Description : Shows a full borrow/return history for one
-              member. Scans records[] and prints each
-              transaction.
-Input       : string memberID - the member whose summary to show
-Return      : None
-============================================================
-*/
 void displayMemberSummary(string memberID) {
     int memberIndex = findMember(memberID);
     if (memberIndex == -1) {
@@ -589,15 +645,6 @@ void displayMemberSummary(string memberID) {
 
 // ============= MEMBER MENU FUNCTIONS =============
 
-/*
-============================================================
-Function    : memberBorrowGame
-Description : Asks the logged-in member for a game ID and
-              delegates to borrowGame().
-Input       : string memberID - the currently logged-in member
-Return      : None
-============================================================
-*/
 void memberBorrowGame(string memberID) {
     cout << "\n=== Borrow Game ===" << endl;
 
@@ -609,16 +656,6 @@ void memberBorrowGame(string memberID) {
     borrowGame(memberID, gameID);
 }
 
-/*
-============================================================
-Function    : memberReturnGame
-Description : Shows the member's currently borrowed games,
-              asks for a game ID, verifies ownership, then
-              delegates to returnGame().
-Input       : string memberID - the currently logged-in member
-Return      : None
-============================================================
-*/
 void memberReturnGame(string memberID) {
     cout << "\n=== Return Game ===" << endl;
 
@@ -653,15 +690,6 @@ void memberReturnGame(string memberID) {
     returnGame(gameID);
 }
 
-/*
-============================================================
-Function    : memberAddReview
-Description : Prompts the logged-in member for a game ID,
-              rating and review text, then calls addReview().
-Input       : string memberID - the currently logged-in member
-Return      : None
-============================================================
-*/
 void memberAddReview(string memberID) {
     cout << "\n=== Write a Review ===" << endl;
 
@@ -685,16 +713,6 @@ void memberAddReview(string memberID) {
 
 // ============= SEARCH MENU FUNCTIONS =============
 
-/*
-============================================================
-Function    : searchGamesByPlayers
-Description : Asks for a player count and a sort preference,
-              collects matching games, runs merge sort with
-              the chosen mode, then displays.
-Input       : None (reads from cin)
-Return      : None
-============================================================
-*/
 void searchGamesByPlayers() {
     cout << "\n=== Search Games by Player Count ===" << endl;
 
@@ -711,7 +729,6 @@ void searchGamesByPlayers() {
         return;
     }
 
-    // Ask user how to sort
     cout << "\nHow would you like the results sorted?" << endl;
     cout << "1. By Year of Publication (oldest first)" << endl;
     cout << "2. By Title (A - Z)" << endl;
@@ -737,16 +754,6 @@ void searchGamesByPlayers() {
     displaySearchResults(results, count);
 }
 
-/*
-============================================================
-Function    : displayGameWithReviews
-Description : Asks for a game ID, displays its details and
-              average rating, then optionally shows all
-              reviews.
-Input       : None (reads from cin)
-Return      : None
-============================================================
-*/
 void displayGameWithReviews() {
     cout << "\n=== View Game Details ===" << endl;
 
@@ -777,15 +784,6 @@ void displayGameWithReviews() {
 
 // ============= MENU FUNCTIONS =============
 
-/*
-============================================================
-Function    : adminMenu
-Description : Displays the admin sub-menu in a loop and
-              dispatches to the selected admin action.
-Input       : None
-Return      : None
-============================================================
-*/
 void adminMenu() {
     int choice;
 
@@ -843,16 +841,6 @@ void adminMenu() {
     } while (choice != 6);
 }
 
-/*
-============================================================
-Function    : memberMenu
-Description : Asks the user to log in with a Member ID,
-              validates it, then displays the member sub-menu
-              in a loop and dispatches to the chosen action.
-Input       : None (reads memberID from cin)
-Return      : None
-============================================================
-*/
 void memberMenu() {
     string memberID;
 
@@ -880,10 +868,18 @@ void memberMenu() {
         cout << "2. Return Game" << endl;
         cout << "3. View My Borrow/Return Summary" << endl;
         cout << "4. Write a Review" << endl;
-        cout << "5. Logout" << endl;
+        cout << "5. Record a Play Session (Players + Winner)" << endl;
+        cout << "6. View My Play History" << endl;
+        cout << "7. View Game Play History" << endl;
+        cout << "8. Logout" << endl;
         cout << "======================================" << endl;
         cout << "Enter choice: ";
-        cin >> choice;
+
+        if (!(cin >> choice)) {
+            clearInputBuffer();
+            cout << "Invalid input! Please enter a number.\n";
+            continue;
+        }
         clearInputBuffer();
 
         switch (choice) {
@@ -904,23 +900,26 @@ void memberMenu() {
             pauseScreen();
             break;
         case 5:
+            recordPlaySession(memberID);
+            pauseScreen();
+            break;
+        case 6:
+            viewMyPlayHistory(memberID);
+            pauseScreen();
+            break;
+        case 7:
+            viewGamePlayHistory();
+            pauseScreen();
+            break;
+        case 8:
             cout << "Logging out..." << endl;
             break;
         default:
             cout << "Invalid choice! Please try again." << endl;
         }
-    } while (choice != 5);
+    } while (choice != 8);
 }
 
-/*
-============================================================
-Function    : searchMenu
-Description : Displays the search/display sub-menu in a loop
-              and dispatches to the chosen view or search.
-Input       : None
-Return      : None
-============================================================
-*/
 void searchMenu() {
     int choice;
 
@@ -954,15 +953,6 @@ void searchMenu() {
     } while (choice != 3);
 }
 
-/*
-============================================================
-Function    : mainMenu
-Description : Top-level menu loop. Dispatches to Admin,
-              Member, Search or exits the program.
-Input       : None
-Return      : None
-============================================================
-*/
 void mainMenu() {
     int choice;
 
@@ -1000,16 +990,6 @@ void mainMenu() {
 
 // ============= MAIN =============
 
-/*
-============================================================
-Function    : main
-Description : Entry point. Loads games from CSV, builds the
-              hash table, initializes test members, then
-              launches the main menu loop.
-Input       : None
-Return      : int - 0 on success, 1 if CSV fails to load
-============================================================
-*/
 int main() {
     cout << "Loading games from database..." << endl;
     gameCount = loadGamesFromCSV("games.csv", games, MAX_GAMES);
