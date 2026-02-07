@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 using namespace std;
 
@@ -23,4 +23,7 @@ public:
     int search(string gameID);
     bool remove(string gameID);
     void display();
+
+    // ✅ YOU MUST ADD THIS (HashTable.cpp already has clear())
+    void clear();
 };

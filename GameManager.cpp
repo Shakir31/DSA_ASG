@@ -4,7 +4,8 @@
 #include <iostream>
 using namespace std;
 
-string trim(string str) {
+// trim is helper ONLY for this file
+static string trim(string str) {
     size_t first = str.find_first_not_of(" \t\r\n");
     if (first == string::npos) return "";
     size_t last = str.find_last_not_of(" \t\r\n");
@@ -19,79 +20,88 @@ int loadGamesFromCSV(string filename, Game games[], int maxSize) {
     }
 
     string line;
-    getline(file, line); // Skip header
+    getline(file, line); // header
 
     int count = 0;
-    int gameCounter = 1;
+    int autoIdCounter = 1;
 
     while (getline(file, line) && count < maxSize) {
-        // Skip empty lines
         line = trim(line);
-        if (line.empty() || line.length() < 5) {
-            continue;
-        }
+        if (line.empty()) continue;
 
         stringstream ss(line);
-        string name, minP, maxP, maxTime, minTime, year;
 
-        // Parse CSV
-        getline(ss, name, ',');
-        getline(ss, minP, ',');
-        getline(ss, maxP, ',');
-        getline(ss, maxTime, ',');
-        getline(ss, minTime, ',');
-        getline(ss, year, ',');
+        // Support 2 formats:
+        // Old: title,minP,maxP,maxTime,minTime,year
+        // New: gameID,title,minP,maxP,maxTime,minTime,year
+        string c1, c2, c3, c4, c5, c6, c7;
 
-        // Clean name
-        name = trim(name);
-        if (name.empty()) continue;
+        getline(ss, c1, ',');
+        getline(ss, c2, ',');
+        getline(ss, c3, ',');
+        getline(ss, c4, ',');
+        getline(ss, c5, ',');
+        getline(ss, c6, ',');
+        getline(ss, c7, ','); // empty if old format
 
-        // Remove quotes
-        if (name.length() > 0 && name[0] == '"') {
-            name = name.substr(1, name.length() - 2);
+        c1 = trim(c1); c2 = trim(c2); c3 = trim(c3);
+        c4 = trim(c4); c5 = trim(c5); c6 = trim(c6); c7 = trim(c7);
+
+        bool isNewFormat = !c7.empty();
+
+        string gameID, title, minP, maxP, maxTime, minTime, year;
+
+        if (isNewFormat) {
+            // new format
+            gameID = c1;
+            title = c2;
+            minP = c3;
+            maxP = c4;
+            maxTime = c5;
+            minTime = c6;
+            year = c7;
+        }
+        else {
+            // old format
+            title = c1;
+            minP = c2;
+            maxP = c3;
+            maxTime = c4;
+            minTime = c5;
+            year = c6;
+
+            // auto-generate ID
+            gameID = "G";
+            if (autoIdCounter < 10) gameID += "00";
+            else if (autoIdCounter < 100) gameID += "0";
+            gameID += to_string(autoIdCounter);
+            autoIdCounter++;
         }
 
-        // Validate we have all fields
-        minP = trim(minP);
-        maxP = trim(maxP);
-        minTime = trim(minTime);
-        maxTime = trim(maxTime);
-        year = trim(year);
-
-        if (minP.empty() || maxP.empty() || year.empty()) {
-            continue; // Skip this line
+        // Clean title quotes if any
+        title = trim(title);
+        if (!title.empty() && title.front() == '"' && title.back() == '"' && title.length() >= 2) {
+            title = title.substr(1, title.length() - 2);
         }
+        if (title.empty()) continue;
 
-        // Generate Game ID
-        string gameID = "G";
-        if (gameCounter < 10) gameID += "00";
-        else if (gameCounter < 100) gameID += "0";
-        gameID += to_string(gameCounter);
+        if (minP.empty() || maxP.empty() || year.empty()) continue;
 
-        // Convert to integers with error checking
-        int minPlayers = 0;
-        int maxPlayers = 0;
-        int minPlaytime = 0;
-        int maxPlaytime = 0;
-        int yearPub = 0;
+        int minPlayers = 0, maxPlayers = 0, minPlaytime = 0, maxPlaytimeV = 0, yearPub = 0;
 
         try {
             minPlayers = stoi(minP);
             maxPlayers = stoi(maxP);
             minPlaytime = (minTime.empty() ? 0 : stoi(minTime));
-            maxPlaytime = (maxTime.empty() ? 0 : stoi(maxTime));
+            maxPlaytimeV = (maxTime.empty() ? 0 : stoi(maxTime));
             yearPub = stoi(year);
         }
         catch (...) {
-            // Skip this game if conversion fails
             continue;
         }
 
-        // Create game object
-        games[count] = Game(gameID, name, minPlayers, maxPlayers, minPlaytime, maxPlaytime, yearPub);
-
+        games[count] = Game(gameID, title, minPlayers, maxPlayers, minPlaytime, maxPlaytimeV, yearPub);
         count++;
-        gameCounter++;
     }
 
     file.close();
@@ -104,4 +114,30 @@ void buildHashTable(Game games[], int gameCount, HashTable& hashTable) {
         hashTable.insert(games[i].getGameID(), i);
     }
     cout << "Hash table built with " << gameCount << " games." << endl;
+}
+
+bool saveGamesToCSV(string filename, Game games[], int gameCount) {
+    ofstream file(filename);
+    if (!file.is_open()) {
+        cout << "ERROR: Cannot write to " << filename << endl;
+        return false;
+    }
+
+    // Save in new format WITH GameID
+    file << "gameID,title,minPlayers,maxPlayers,maxPlaytime,minPlaytime,yearPublished\n";
+
+    for (int i = 0; i < gameCount; i++) {
+        file << games[i].getGameID() << ","
+            << "\"" << games[i].getTitle() << "\"" << ","
+            << games[i].getMinPlayers() << ","
+            << games[i].getMaxPlayers() << ","
+            << games[i].getMaxPlaytime() << ","
+            << games[i].getMinPlaytime() << ","
+            << games[i].getYear()
+            << "\n";
+    }
+
+    file.close();
+    cout << "? Saved " << gameCount << " games to " << filename << endl;
+    return true;
 }

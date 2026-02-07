@@ -1,0 +1,629 @@
+gameID,title,minPlayers,maxPlayers,maxPlaytime,minPlaytime,yearPublished
+G001,"12 Days",3,5,15,15,2011
+G002,"5-Minute Marvel",2,5,5,5,2018
+G003,"7 Wonders",2,7,30,30,2010
+G004,"7 Wonders Duel",2,2,30,30,2015
+G005,"7 Wonders: Architects",2,7,25,25,2021
+G006,"Aargh!",2,4,20,20,2005
+G007,"Abalone",2,2,30,30,1987
+G008,"Abandon All Artichokes",2,4,20,20,2020
+G009,"Abyss",2,4,60,30,2014
+G010,"Acquire",2,6,90,90,1963
+G011,"Adventure Land",2,4,45,45,2015
+G012,"The Adventurers: The Temple of Chac",2,6,45,45,2009
+G013,"Aeon's End: War Eternal",1,4,60,60,2017
+G014,"Africana",2,4,60,60,2012
+G015,"Airlines Europe",2,5,75,75,2011
+G016,"Akropolis",1,4,30,20,2022
+G017,"Akrotiri",2,2,45,45,2014
+G018,"Aladdin's Dragons",3,5,90,60,2000
+G019,"Alchemists",2,4,120,120,2014
+G020,"Alea Iacta Est",2,5,60,60,2009
+G021,"Alhambra",2,6,60,45,2003
+G022,"Alien Frontiers",2,4,90,90,2010
+G023,"Among the Stars",2,4,30,30,2012
+G024,"Das Amulett",3,6,60,60,2001
+G025,"Anima: Shadow of Omega",2,5,60,60,2006
+G026,"Animals on Board",2,4,30,15,2016
+G027,"Anomia",3,6,30,30,2010
+G028,"Apples to Apples",4,10,30,20,1999
+G029,"Arboretum",2,4,30,30,2015
+G030,"Arcane Academy",2,4,45,30,2016
+G031,"Archaeology: The Card Game",2,4,20,20,2007
+G032,"Archaeology: The New Expedition",2,5,30,20,2016
+G033,"Architects of the West Kingdom",1,5,80,60,2018
+G034,"Arena: Roma II",2,2,45,30,2009
+"Artifacts,"Inc."",2,4,60,60,2014
+G035,"Asante",2,2,40,40,2013
+G036,"Ascension: Storm of Souls",1,4,30,30,2011
+G037,"At the Gates of Loyang",1,4,120,60,2009
+G038,"Atlantis Rising",2,6,90,30,2012
+G039,"Automania",2,4,90,60,2015
+G040,"Azul",2,4,45,30,2017
+G041,"Bacchus' Banquet",3,5,30,30,2008
+G042,"Back to the Future: Back in Time",2,4,50,50,2020
+G043,"Bad Company",1,6,30,30,2021
+G044,"Bag of Chips",2,5,20,15,2021
+G045,"Bandido",1,4,15,10,2016
+G046,"BANG!",4,7,40,20,2002
+G047,"BANG! The Dice Game",3,8,15,15,2013
+G048,"BANG! The Dice Game",3,8,15,15,2013
+G049,"Barbarossa",3,4,60,60,1988
+G050,"Bargain Quest",2,6,60,30,2017
+G051,"BasketBoss",2,5,50,50,2009
+G052,"Battle Line",2,2,30,30,2000
+G053,"Battle Merchants",2,4,120,120,2014
+G054,"BattleCON: Fate of Indines",2,2,60,30,2015
+G055,"Beasty Bar",2,4,20,20,2014
+G056,"Beer!",2,6,0,0,2001
+G057,"Belratti",3,7,25,25,2018
+G058,"Betrayal at House on the Hill",3,6,60,60,2004
+G059,"Between Two Cities",1,7,25,25,2015
+G060,"Biblios",2,4,30,30,2007
+G061,"Black Friday",2,5,55,55,2010
+G062,"Blokus",2,4,20,20,2000
+G063,"Blood Bound",6,12,30,30,2013
+G064,"Blood Rage",2,4,90,60,2015
+G065,"Bloodborne: The Card Game",3,5,45,30,2016
+G066,"The Bloody Inn",1,4,60,30,2015
+G067,"Blueprints",2,4,30,30,2013
+G068,"Blueprints",2,4,30,30,2013
+G069,"Boggle",1,8,10,10,1972
+G070,"Bohnanza",2,7,45,45,1997
+G071,"Bomb Busters",2,5,30,30,2024
+G072,"Boss Monster: The Dungeon Building Card Game",2,4,30,30,2013
+G073,"Bosworth",2,4,60,60,1998
+G074,"Botswana",2,5,30,20,1994
+G075,"Brass: Birmingham",2,4,120,60,2018
+G076,"Bridge Troll",3,6,45,45,2009
+G077,"Broom Service",2,5,75,30,2015
+G078,"Bruges",2,4,60,60,2013
+G079,"Brynk",2,99,30,15,2016
+G080,"Buccaneer Bones",1,4,15,15,2013
+G081,"Bunny Kingdom",2,4,60,40,2017
+"But Wait,"There's More!"",3,10,30,30,2011
+G082,"Butterfly Garden",2,4,30,30,2012
+G083,"BuyWord",1,4,45,45,2004
+G084,"Ca$h 'n Gun$",4,6,30,30,2005
+G085,"Ca$h 'n Gun$: Live",8,20,30,30,2007
+G086,"Camel Up",2,8,30,20,2014
+G087,"Can't Stop",2,4,30,30,1980
+G088,"The Capitals",2,5,120,120,2013
+G089,"Captain Sonar",2,8,60,45,2016
+G090,"Carcassonne",2,5,45,30,2000
+G091,"Carcassonne",2,5,45,30,2000
+G092,"The Card Game of Oz",1,4,20,20,2014
+G093,"Cartographers",1,100,45,30,2019
+G094,"Cascadia",1,4,45,30,2021
+G095,"Castell",2,4,90,60,2018
+G096,"Castle Combo",2,5,25,10,2024
+G097,"Castle Dice",1,4,45,45,2013
+G098,"Castle Panic",1,6,60,30,2009
+G099,"The Castles of Burgundy",2,4,90,30,2011
+G100,"Castles of Mad King Ludwig",1,4,90,90,2014
+G101,"Cat Packs",1,4,45,30,2024
+G102,"Caylus",2,5,150,60,2005
+G103,"Century: Golem Edition",2,5,45,30,2017
+G104,"Challengers!",1,8,45,45,2022
+G105,"The Chameleon",3,8,15,15,2017
+G106,"Chateau Roquefort",2,4,30,30,2007
+G107,"Chimera Station",2,4,90,60,2017
+G108,"Chinese Checkers",2,6,30,30,1893
+G109,"Chronicles of Crime: 1400",1,4,90,60,2020
+G110,"Chronicles of Crime: 1900",1,4,90,60,2021
+G111,"Cinque Terre",2,5,60,60,2013
+G112,"Citadels",2,8,60,20,2000
+G113,"Citadels",2,8,60,20,2000
+G114,"Clank!: A Deck-Building Adventure",2,4,60,30,2016
+G115,"Clans of Caledonia",1,4,120,30,2017
+G116,"Clue: The Card Game",3,5,45,45,2002
+G117,"Cockroach Poker Royal",2,6,25,15,2012
+G118,"Codenames",2,8,15,15,2015
+G119,"Coimbra",2,4,90,60,2018
+G120,"Coin & Crown",1,4,60,45,2018
+G121,"Colony",1,4,60,45,2016
+G122,"Colt Express",2,6,40,40,2014
+G123,"Concept",4,12,40,40,2013
+G124,"Concordia",2,5,100,100,2013
+G125,"Connect Four",2,2,10,10,1974
+G126,"Copycat",2,4,95,95,2012
+G127,"Cottage Garden",1,4,60,60,2016
+G128,"Council of Verona (Second Edition)",2,5,20,20,2014
+G129,"Coup",2,6,15,15,2012
+G130,"Coup: Rebellion G54",3,6,15,15,2014
+G131,"Courtier",2,4,45,45,2012
+G132,"Cranium",4,99,60,60,1998
+G133,"Creature Caravan",1,4,90,60,2024
+G134,"Creature Comforts",1,5,45,45,2022
+G135,"Cretaceous Rails",1,4,120,30,2025
+G136,"The Crew: The Quest for Planet Nine",2,5,20,20,2019
+G137,"Crossfire",5,10,10,5,2017
+G138,"Crusaders: Thy Will Be Done",2,4,60,40,2018
+G139,"Cuckoo Zoo",2,10,20,20,2002
+G140,"Cutthroat Caverns",3,6,90,90,2007
+G141,"CV",2,4,60,60,2013
+G142,"Dairyman",2,4,30,20,2016
+G143,"Dead Cells: The Rogue-Lite Board Game",1,4,45,45,2024
+G144,"Dead of Winter: A Crossroads Game",2,5,120,60,2014
+G145,"Dead of Winter: The Long Night",2,5,120,60,2016
+G146,"Deadwood",2,5,60,30,2011
+G147,"Deception: Murder in Hong Kong",4,12,20,20,2014
+G148,"Decrypto",3,8,45,15,2018
+G149,"Defenders of the Realm",1,4,90,90,2010
+G150,"Demon Worker",3,4,45,45,2016
+G151,"Deus",2,4,90,60,2014
+G152,"Diabolo",3,5,30,30,2006
+G153,"Diamant",3,8,40,20,2005
+G154,"Dice Forge",2,4,45,45,2017
+G155,"Dice Manor",2,4,45,30,2023
+G156,"Dice Town",2,5,45,45,2009
+G157,"Discoveries: The Journals of Lewis & Clark",2,4,60,60,2015
+G158,"Discworld: Ankh-Morpork",2,4,60,60,2011
+G159,"Dive! Diver! Die!",3,5,45,45,2010
+G160,"Dixit",3,6,30,30,2008
+G161,"Dixit: Odyssey",3,12,30,30,2011
+G162,"Dog Lover",2,4,30,30,2021
+G163,"Dominion",2,4,30,30,2008
+G164,"Dominion: Intrigue",2,6,30,30,2009
+G165,"Don't Mess with Cthulhu Deluxe",4,8,30,1,2018
+G166,"DONUTS",2,2,15,10,2023
+G167,"Downforce",2,6,40,20,2017
+G168,"Dr. Eureka",2,4,15,15,2015
+G169,"Draftosaurus",2,5,15,15,2019
+G170,"Dragon's Gold",3,6,45,45,2001
+G171,"Dragonkeepers",2,4,20,20,2023
+G172,"Drakon",2,6,20,20,2001
+G173,"Dream Home",2,4,30,30,2016
+G174,"Drop It",2,4,30,30,2018
+G175,"Drum Roll",2,4,90,90,2011
+G176,"Dungeon Fighter",1,6,60,45,2011
+G177,"Dungeon Petz",2,4,90,90,2011
+G178,"Dungeons & Dragons: Rock Paper Wizard",3,6,30,30,2016
+G179,"Dutch Blitz",2,4,15,1,1960
+G180,"The Dutch Golden Age",3,4,60,60,2008
+G181,"Earth",1,5,90,45,2023
+G182,"Eclipse: New Dawn for the Galaxy",2,6,180,60,2011
+G183,"Ecos: First Continent",2,6,75,45,2019
+G184,"Elder Sign",1,8,90,90,2011
+G185,"Eldritch Horror",1,8,240,120,2013
+G186,"Elfenland",2,6,60,60,1998
+G187,"Elysium",2,4,60,60,2015
+G188,"Eminent Domain: Microcosm",2,2,15,15,2014
+G189,"Empire Builder",2,6,180,180,1982
+G190,"Empire's End",2,4,60,45,2023
+G191,"Endeavor: Age of Sail",2,5,90,60,2018
+G192,"Entropy",2,6,15,15,2015
+G193,"Eruption",2,6,60,30,2011
+G194,"Escape from the Aliens in Outer Space",2,8,45,20,2010
+G195,"Escape Room: The Game",3,5,60,60,2016
+G196,"Ethnos",2,6,60,45,2017
+G197,"Eurorails",2,6,240,180,1990
+G198,"Evolution",2,6,60,60,2014
+G199,"Evolution: Climate",2,6,60,60,2016
+G200,"Expedition Altiplano",2,2,30,30,2006
+G201,"Explorers of Navoria",2,4,80,40,2024
+G202,"Fallout Shelter: The Board Game",2,4,90,60,2020
+G203,"Family Business",2,6,30,30,1982
+G204,"Fantastic Factories",1,5,60,45,2019
+G205,"Fantasy Realms",2,6,20,20,2017
+G206,"Fidelitas",1,4,30,30,2015
+G207,"First Empires",2,5,60,45,2022
+G208,"First Rat",1,5,75,30,2022
+G209,"Fjords",1,2,30,30,2005
+G210,"Flamecraft",1,5,60,60,2022
+G211,"Flash Point: Fire Rescue",2,6,45,45,2011
+G212,"Fleet",2,4,45,30,2012
+G213,"Flip 7",3,18,20,20,2024
+G214,"For Sale",3,6,30,30,1997
+G215,"Forbidden Desert",2,5,45,45,2013
+G216,"Forbidden Island",2,4,30,30,2010
+G217,"Forest Shuffle",2,5,60,40,2023
+G218,"Formula De",2,10,120,120,1997
+G219,"Fortuna",2,4,60,60,2011
+G220,"Fortune and Glory: The Cliffhanger Game",1,8,240,90,2011
+G221,"The Fox Experiment",1,4,60,60,2023
+G222,"Fractured Sky",1,5,75,45,2024
+G223,"Friday",1,1,25,25,2011
+G224,"Fromage",1,4,45,30,2024
+G225,"Funfair",2,4,60,30,2021
+G226,"Fury of Dracula (Third/Fourth Edition)",2,5,180,120,2015
+G227,"FUSE",1,5,10,10,2015
+G228,"The Game",1,5,20,20,2015
+G229,"Game of Thrones: The Iron Throne",3,5,60,30,2016
+G230,"Gauner raus!",2,4,60,30,2016
+G231,"Geek Out!",2,99,30,30,2013
+G232,"Get Bit!",2,7,20,10,2007
+G233,"Get on Board: New York & London",2,5,30,30,2022
+G234,"Ghost Blitz",2,8,20,20,2010
+G235,"Ghost Stories",1,4,60,60,2008
+G236,"Ghosts Love Candy Too",2,6,45,20,2022
+G237,"Give Me the Brain!",3,8,15,15,1996
+G238,"Gizmos",2,4,50,40,2018
+G239,"Glass Road",1,4,80,20,2013
+G240,"Gloom",2,5,60,60,2005
+G241,"The Gnomes of Zavandor",2,4,90,60,2011
+G242,"Going Postal",3,6,15,10,2019
+G243,"Good Cop Bad Cop",4,8,20,10,2014
+G244,"Grand Austria Hotel",2,4,120,60,2015
+G245,"The Grand Carnival",1,4,60,45,2020
+G246,"El Grande: Decennial Edition",2,5,90,90,2006
+G247,"The Great Split",2,7,45,45,2022
+G248,"The Grizzled",2,5,30,30,2015
+G249,"The Guild of Merchant Explorers",1,4,45,45,2022
+G250,"Guildhall",2,4,45,30,2012
+G251,"Guillotine",2,5,30,30,1998
+G252,"Habitats",1,5,50,30,2016
+G253,"Hail Hydra",5,8,75,40,2018
+G254,"Halli Galli",2,6,10,10,1990
+G255,"Halloween Party",3,6,20,20,2004
+G256,"Hanabi",2,5,25,25,2010
+G257,"Hanamikoji",2,2,15,15,2013
+G258,"Hansa Teutonica: Big Box",3,5,90,45,2020
+G259,"Happy Salmon",3,8,2,2,2016
+G260,"Harbour",1,4,60,30,2015
+G261,"Hardback",1,5,90,45,2018
+G262,"Le Havre",1,5,150,30,2008
+G263,"Heat: Pedal to the Metal",1,6,60,30,2022
+G264,"Herd Mentality",4,20,30,20,2020
+G265,"Here to Slay",2,6,60,30,2020
+"Hey,"That's My Fish!"",2,4,20,20,2003
+G266,"High Society",3,5,30,15,1995
+G267,"Hoity Toity",2,5,45,45,1990
+G268,"Horrified",1,5,60,60,2019
+G269,"I'm the Boss!",3,6,60,60,1994
+G270,"ICECOOL",2,4,30,30,2016
+G271,"Ideology: The War of Ideas",2,5,90,90,2003
+G272,"Imaginiff",3,8,30,30,1998
+G273,"Imhotep",2,4,40,40,2016
+G274,"Imhotep: The Duel",2,2,30,30,2018
+G275,"Imperial Settlers",1,4,90,45,2014
+G276,"The Impregnable Fortress",2,2,60,30,2017
+G277,"Ingenious",1,4,45,30,2004
+G278,"Ingenious",1,4,45,30,2004
+G279,"Innovation",2,5,60,20,2010
+G280,"Intrigue",3,5,45,45,1994
+G281,"La Isla",2,4,60,30,2014
+G282,"Isle of Skye: From Chieftain to King",2,5,50,30,2015
+G283,"Islebound",2,4,120,60,2016
+G284,"Istanbul",2,5,60,40,2014
+G285,"Istanbul: The Dice Game",2,4,40,20,2017
+G286,"Jaipur",2,2,30,30,2009
+G287,"Jamaica",2,6,60,30,2007
+G288,"Jump Drive",2,4,30,10,2017
+G289,"Jungle Speed",2,10,10,10,1997
+G290,"Jurassic Jumble",3,9,10,10,2004
+G291,"Just One",3,7,60,20,2018
+G292,"Kanagawa",2,4,45,45,2016
+G293,"Karuba",2,4,40,30,2015
+G294,"Keyflower",2,6,120,90,2012
+G295,"Kill Doctor Lucky",3,8,45,45,1996
+G296,"King of Tokyo",2,6,30,30,2011
+G297,"The King's Guild",1,6,120,60,2018
+G298,"Kingdomino",2,4,25,15,2016
+G299,"Kitchen Rush",1,4,45,30,2017
+G300,"Kites",2,6,10,10,2022
+G301,"Knarr",2,4,30,30,2023
+G302,"Kodama: The Tree Spirits",2,5,30,30,2016
+G303,"Ladies & Gentlemen",4,10,30,30,2013
+G304,"Lady Alice",3,5,30,30,2012
+G305,"Lanterns: The Harvest Festival",2,4,30,30,2015
+G306,"Las Vegas",2,5,30,30,2012
+G307,"Last Will",2,5,75,45,2011
+G308,"Lawless Empire",3,5,120,90,2016
+G309,"Legacy: Gears of Time",2,4,60,60,2012
+G310,"Legacy: The Testament of Duke de Crecy",1,4,60,60,2013
+G311,"Legend of Vyas",2,2,0,0,2015
+G312,"Legendary: A Marvel Deck Building Game",1,5,60,30,2012
+G313,"Let's Kill!",2,6,20,20,1997
+G314,"Letters from Whitechapel",2,6,90,90,2011
+G315,"Level 7 [Omega Protocol]",2,6,90,60,2013
+G316,"Lewis & Clark: The Expedition",1,5,120,120,2013
+G317,"Libertalia",2,6,60,40,2012
+G318,"Lift it!",1,8,30,30,2012
+G319,"Light Speed: Arena",1,4,15,5,2025
+G320,"Link City",2,6,30,30,2024
+G321,"Livingstone",2,5,35,35,2009
+G322,"Lonpos 4D Puzzle Game",1,2,5,5,2000
+G323,"Loot",2,8,20,20,1992
+G324,"Lord of the Rings",2,5,20,20,2003
+G325,"The Lord of the Rings: The Card Game",1,2,60,30,2011
+G326,"Lords of Scotland",2,5,35,35,2010
+G327,"Lords of Xidit",3,5,90,90,2014
+G328,"Lost Cities",2,2,30,30,1999
+G329,"Lost Legends",3,5,70,70,2013
+G330,"Lost Ruins of Arnak",1,4,120,30,2020
+G331,"Love Letter",2,4,20,20,2012
+G332,"Magic Maze",1,8,15,15,2017
+G333,"Majesty: For the Realm",2,4,30,20,2017
+G334,"The Manhattan Project",2,5,120,120,2012
+G335,"The Manhattan Project: Energy Empire",1,5,120,60,2016
+G336,"Mansions of Madness",2,5,180,120,2011
+G337,"Mansions of Madness: Second Edition",1,5,180,120,2016
+G338,"Martian Dice",2,99,10,10,2011
+G339,"Mascarade",2,13,30,30,2013
+G340,"Master of Orion: The Board Game",2,4,60,40,2016
+G341,"Master of Respect",3,5,60,60,2016
+G342,"Mastermind",2,2,20,20,1971
+G343,"Mechs vs. Minions",2,4,120,60,2016
+G344,"Medieval Academy",2,5,30,30,2014
+G345,"Medieval Merchant",2,6,90,60,1998
+G346,"Medina (Second Edition)",2,4,60,60,2014
+G347,"Medium",2,8,45,30,2019
+G348,"Meeple War",2,4,60,30,2016
+G349,"Merkator",1,4,90,45,2010
+G350,"MicroMacro: Crime City",1,4,45,15,2020
+G351,"The Mines of Zavandor",2,4,90,45,2010
+G352,"Mission: Red Planet",3,5,60,60,2005
+G353,"Monopoly Deal Card Game",2,5,15,15,2008
+G354,"Monster Café",2,4,20,20,2013
+G355,"Morels",2,2,30,30,2012
+G356,"Mr. Jack",2,2,30,30,2006
+G357,"Munchkin Dungeon",2,5,90,60,2020
+G358,"Mysterium",2,7,42,42,2015
+G359,"Mysterium Park",2,6,45,30,2020
+G360,"Mystic Market",2,4,45,30,2019
+G361,"Mystic Vale",2,4,45,45,2016
+G362,"Nations",1,5,200,40,2013
+G363,"Nations: The Dice Game",1,4,40,20,2014
+G364,"Near and Far",2,4,120,90,2017
+G365,"New Haven",2,4,60,60,2013
+G366,"New York 1901",2,4,60,30,2015
+G367,"New York Slice",2,6,30,30,2017
+G368,"Nidavellir",2,5,45,45,2020
+G369,"The Night Cage",1,5,60,40,2021
+G370,"Night of the Ninja",4,11,30,15,2021
+G371,"Nimalia",2,4,30,25,2023
+G372,"No Thanks!",3,7,20,20,2004
+G373,"No Thanks!",3,7,20,20,2004
+G374,"Nobody but Us Chickens",3,6,20,20,2003
+G375,"Not Alone",2,7,45,30,2016
+G376,"Notre Dame",2,5,75,45,2007
+G377,"Nuns on the Run",2,8,60,45,2010
+G378,"Oceanos",2,5,45,30,2016
+G379,"OddVille",2,4,60,30,2012
+G380,"Oh My Goods!",2,4,30,30,2015
+G381,"Old Maid",2,6,5,5,1874
+G382,"On Tour: Paris and New York",1,8,30,20,2022
+G383,"Once Upon a Time: The Storytelling Card Game",2,6,30,30,1993
+G384,"One Night Revolution",3,10,15,15,2015
+G385,"One Night Ultimate Werewolf",3,10,10,10,2014
+G386,"Onitama",2,2,20,15,2014
+G387,"Orleans",2,5,90,90,2014
+G388,"Outlive",2,4,110,40,2017
+G389,"Packet Row",2,5,75,45,2013
+G390,"Paleo",2,4,60,45,2020
+G391,"Pandemic",2,4,45,45,2008
+G392,"Pandemic",2,4,45,45,2008
+G393,"Pandemic: Rapid Response",2,4,20,20,2019
+G394,"Pandemic: The Cure",2,5,30,30,2014
+G395,"Parade",2,6,45,45,2007
+G396,"Party Panda Pirates",2,6,45,30,2024
+G397,"Pasha",2,5,30,30,2013
+G398,"Pass the Bomb",2,10,20,20,1994
+G399,"Patchwork",2,2,30,15,2014
+G400,"Pathfinder Adventure Card Game: Rise of the Runelords â€“ Base Set",1,4,90,90,2013
+G401,"Pay Dirt",2,5,90,90,2014
+G402,"Peloponnes",1,5,45,45,2009
+G403,"Perudo",2,10,30,15,1800
+G404,"Phantom Ink",2,8,15,10,2022
+G405,"Pick-a-Dog",1,5,15,15,2012
+G406,"Pick-a-Dog",1,5,15,15,2012
+G407,"The Pillars of the Earth",2,4,120,90,2006
+G408,"Pioneer Days",2,4,75,45,2017
+G409,"Pit",3,8,90,30,1903
+G410,"Planted: A Game of Nature & Nurture",2,5,30,20,2022
+G411,"Pluckin' Pairs",3,8,50,50,2012
+G412,"Plunder",2,6,45,30,2013
+G413,"Point Salad",2,6,30,15,2019
+G414,"Police Precinct",1,6,90,90,2013
+G415,"Poo: The Card Game",2,8,15,5,2009
+G416,"Port Royal",2,5,50,20,2014
+G417,"Power Grid",2,6,120,120,2004
+G418,"The Price Is Right",3,5,60,60,1973
+G419,"Progress: Evolution of Technology",1,5,90,45,2014
+G420,"Project L",1,4,40,20,2020
+G421,"Project: ELITE",1,4,30,30,2016
+G422,"Puerto Rico",3,5,150,90,2002
+G423,"Pulsar 2849",2,4,90,60,2017
+G424,"The Pursuit of Happiness",1,4,90,60,2015
+G425,"PUSH",2,6,25,20,2018
+G426,"QE",3,5,45,45,2019
+G427,"Quacks",2,4,45,45,2018
+G428,"Quadropolis",2,4,60,30,2016
+G429,"The Quest for El Dorado",2,4,60,30,2017
+G430,"Qwirkle",2,4,45,45,2006
+G431,"Raccoon Tycoon: Deluxe Edition",2,6,120,30,2021
+G432,"Race for the Galaxy",2,4,60,30,2007
+G433,"Race to Adventure: The Spirit of the Century Exploration Game",2,5,20,20,2013
+G434,"Raiders of the North Sea",2,4,80,60,2015
+G435,"Railroad Revolution",2,4,90,45,2016
+G436,"Rat-a-Tat Cat",2,6,10,10,1995
+G437,"Rat-a-Tat Cat",2,6,10,10,1995
+G438,"Rat-a-Tat Cat",2,6,10,10,1995
+G439,"RattleSnake",2,4,15,15,2007
+G440,"Ready Set Bet",2,9,60,45,2022
+G441,"The Reckoners",1,6,100,60,2018
+G442,"Red7",2,4,30,5,2014
+G443,"Reef",2,4,45,30,2018
+G444,"Relic Runners",2,5,80,40,2013
+G445,"Rent a Hero",3,5,30,20,2012
+G446,"Res Arcana",2,4,60,30,2019
+G447,"The Resistance",5,10,30,30,2009
+G448,"The Resistance",5,10,30,30,2009
+G449,"The Resistance: Avalon",5,10,30,30,2012
+G450,"Revolution!",3,4,60,60,2009
+G451,"Ricochet Robots",1,99,30,30,1999
+G452,"Riftforce",2,2,30,20,2021
+G453,"Rise",2,4,60,60,2022
+G454,"Rise of Augustus",2,6,30,30,2013
+G455,"Rising 5: Runes of Asteros",1,5,30,30,2017
+G456,"Risk",2,6,120,120,1959
+G457,"Risk 2210 A.D.",2,5,240,240,2001
+G458,"Risk: Star Wars Edition",2,4,45,30,2015
+G459,"River of Gold",2,4,90,60,2024
+G460,"River Valley Glassworks",1,5,45,25,2024
+G461,"Robinson Crusoe: Adventures on the Cursed Island",1,4,120,60,2012
+G462,"RoboRally",2,8,120,45,1994
+G463,"Rococo",2,5,120,60,2013
+G464,"Roll for the Galaxy",2,5,45,45,2014
+G465,"Roll Player",1,4,90,60,2016
+G466,"Roll Through the Ages: The Bronze Age",1,4,45,30,2008
+G467,"Room 25",1,6,30,30,2013
+G468,"Royals",2,5,60,60,2014
+G469,"Rummikub",2,4,60,60,1977
+G470,"Russian Railroads",2,4,120,120,2013
+G471,"Saboteur",3,10,30,30,2004
+G472,"Saboteur",3,10,30,30,2004
+G473,"Sail to India",3,4,60,60,2013
+G474,"Saint Malo",2,5,45,45,2012
+G475,"Saint Petersburg",2,4,60,45,2004
+G476,"Samurai",2,4,60,30,1998
+G477,"San Juan",2,4,60,45,2004
+G478,"Sanssouci",2,4,45,30,2013
+G479,"Santa Maria",1,4,90,45,2017
+G480,"Santo Domingo",2,6,30,20,2017
+G481,"Santorini",2,4,20,20,2016
+G482,"Say Anything",3,8,30,30,2008
+G483,"Say Anything Family Edition",3,6,30,30,2011
+G484,"Scotland Yard: Hunting Mister X",2,4,15,15,2019
+G485,"Scythe",1,5,115,115,2016
+G486,"Sea Salt & Paper",2,4,45,30,2022
+G487,"Seasons",2,4,60,60,2012
+G488,"Secret Hitler",5,10,45,45,2016
+G489,"Sentinels of the Multiverse",2,5,60,30,2011
+G490,"Sequence",2,12,30,10,1982
+G491,"The Settlers of Catan",3,6,75,60,2008
+G492,"Seven Dragons",2,5,30,10,2011
+G493,"Shadow Hunters",4,8,60,60,2005
+G494,"Shadowrift",1,6,120,45,2012
+G495,"Shadowrun: Crossfire",1,4,60,30,2014
+G496,"Shadows over Camelot",3,7,90,60,2005
+G497,"Sherlock Holmes Consulting Detective: The Thames Murders & Other Cases",1,8,120,60,1981
+G498,"The Shipwreck Arcana",2,5,30,10,2017
+G499,"Shogun",3,5,120,90,2006
+G500,"Signorie",2,4,120,60,2015
+G501,"Similo",2,8,15,10,2019
+G502,"Skull",3,6,45,15,2011
+G503,"Sleeping Queens",2,5,20,20,2005
+G504,"Small World",2,5,80,40,2009
+G505,"Small World Underground",2,5,90,30,2011
+G506,"Smash Up",2,4,45,45,2012
+G507,"Snake Oil: Elixir",3,8,30,30,2015
+G508,"Sneaks & Snitches",2,5,20,20,2010
+G509,"Snorta!",3,8,20,20,2004
+G510,"So Clover!",3,6,30,30,2021
+G511,"Sonora",1,4,45,30,2020
+G512,"Space Base",2,5,60,60,2018
+G513,"Specter Ops",2,5,120,60,2015
+G514,"Spirit Island",1,4,120,90,2017
+G515,"Spit It Out!",3,8,30,20,2015
+G516,"Splendor",2,4,30,30,2014
+G517,"Splendor Duel",2,2,30,30,2022
+G518,"Spots",1,4,30,25,2022
+G519,"Squint",3,8,30,30,2002
+G520,"Star Realms",2,2,20,20,2014
+G521,"Star Wars: Outer Rim",1,4,180,120,2019
+G522,"Steam Time",2,4,90,90,2015
+G523,"Steampunk Rally",2,8,60,45,2015
+G524,"Stockpile",2,5,45,45,2015
+G525,"Stone Age",2,4,90,60,2008
+G526,"Strike",2,5,15,15,2012
+G527,"Suburbia",1,4,90,60,2012
+G528,"Survive: Escape from Atlantis!",2,4,60,45,1982
+G529,"Sushi Go!",2,5,15,15,2013
+G530,"Sushi Roll",2,5,20,20,2019
+G531,"Sushi Roll!",3,8,10,10,2009
+G532,"T.I.M.E Stories",2,4,90,90,2015
+G533,"Taboo",4,10,20,20,1989
+G534,"Tac Tac Jack",2,7,10,10,2008
+G535,"Take 5",2,10,45,45,1994
+G536,"Takenoko",2,4,45,45,2011
+G537,"Tales & Games: The Hare & the Tortoise",2,5,20,15,2011
+G538,"Tapple",2,10,30,30,2012
+G539,"Targi",2,2,60,60,2012
+G540,"Telestrations",4,8,30,30,2009
+G541,"Tenpenny Parks",1,4,75,45,2022
+G542,"Teotihuacan: City of Gods",1,4,120,90,2018
+G543,"Terror Below",1,5,60,45,2019
+G544,"Terror in Meeple City",2,4,30,30,2013
+G545,"Terrorscape",2,4,45,30,2023
+G546,"This Game Is Killer: Alien on Board",3,10,15,10,2024
+G547,"Those Pesky Humans!",2,4,90,90,2009
+G548,"Three Kingdoms Redux",3,3,165,135,2014
+G549,"Thunderstone Advance: Towers of Ruin",1,5,45,45,2012
+G550,"Thurn and Taxis",2,4,60,60,2006
+G551,"Ticket to Ride",2,5,60,30,2004
+G552,"Ticket to Ride: Europe",2,5,60,30,2005
+G553,"Tides of Time",2,2,20,20,2015
+G554,"Tiefe Taschen",4,8,50,20,2016
+G555,"Tigris & Euphrates",2,4,120,60,1997
+G556,"Tiki Topple",2,4,20,20,2008
+G557,"Time's Up!",4,18,90,90,1999
+G558,"Time's Up! Title Recall!",4,18,60,60,2008
+G559,"Timeline: Events",2,8,15,15,2011
+G560,"Timeline: Inventions",2,8,15,15,2010
+G561,"Timeline: Music & Cinema",2,8,15,15,2013
+G562,"Timeline: Science & Discoveries",2,8,15,15,2011
+G563,"Tiny Epic Defenders",1,4,30,30,2015
+G564,"Tiny Epic Galaxies",1,5,45,30,2015
+G565,"Tobago",2,4,60,60,2009
+G566,"Tofu Kingdom",3,8,30,10,2015
+G567,"Tokaido",1,5,45,45,2012
+G568,"Torres",2,4,60,60,1999
+G569,"Tournay",2,4,60,30,2011
+G570,"Trekking Through History",1,4,60,30,2022
+G571,"Tribes: Dawn of Humanity",2,4,45,45,2018
+G572,"Trio",3,6,15,15,2021
+G573,"Truffle Shuffle",2,4,30,15,2020
+G574,"Tumult Royale",2,4,40,40,2015
+G575,"Tutankhamun",2,6,30,30,2021
+G576,"Twister",2,4,10,10,1966
+G577,"Uglydoll Card Game",2,6,15,15,2006
+G578,"Ultimate Werewolf: Deluxe Edition",5,75,30,30,2014
+G579,"Undermining",2,5,45,45,2011
+G580,"Unlock!: Exotic Adventures",1,6,90,60,2018
+G581,"Unlock!: Extraordinary Adventures",1,6,90,60,2022
+G582,"Unlock!: Game Adventures",1,6,60,30,2021
+G583,"Unlock!: Heroic Adventures",1,6,60,60,2018
+G584,"Unlock!: Legendary Adventures",1,6,60,60,2021
+G585,"Unlock!: Secret Adventures",1,6,60,60,2017
+G586,"UNO Stacko",2,10,20,20,1994
+G587,"Unusual Suspects",3,16,20,20,2015
+G588,"The Vale of Eternity",2,4,45,30,2023
+G589,"Vault Wars",3,5,60,45,2015
+G590,"Il Vecchio",2,4,60,60,2012
+G591,"Via Nebula",2,4,60,45,2016
+G592,"Viceroy",1,4,60,45,2014
+G593,"Village Pillage",2,5,20,20,2019
+G594,"Vindication",2,5,150,45,2018
+G595,"Viticulture",2,6,90,90,2013
+G596,"VivaJava: The Coffee Game: The Dice Game",1,4,40,20,2014
+G597,"The Voyages of Marco Polo",2,4,100,40,2015
+G598,"Warsaw: City of Ruins",2,4,60,60,2016
+G599,"Wasteland Express Delivery Service",2,5,120,90,2017
+G600,"Welcome to the Dungeon",2,4,30,30,2013
+G601,"Werewords",4,10,10,10,2017
+G602,"Wheel of Fortune",2,4,60,60,1975
+G603,"Whitehall Mystery",2,4,60,45,2017
+G604,"Wild Space",1,5,40,15,2020
+G605,"Wingspan",1,5,70,40,2019
+G606,"WINK",3,8,20,20,1994
+G607,"Wits & Wagers",3,7,25,25,2005
+G608,"Wok and Roll",1,5,45,30,2020
+G609,"Word Slam",3,99,45,45,2016
+G610,"Word Slam",3,99,45,45,2016
+G611,"World of Yo-Ho",2,4,90,45,2016
+G612,"World Wonders",1,5,70,50,2023
+G613,"World's Fair 1893",2,4,45,35,2016
+G614,"Wreck Raiders",1,5,45,45,2019
+G615,"Wreckage",2,4,45,45,2003
+G616,"XenoShyft: Onslaught",1,4,60,30,2015
+G617,"Yamatai",2,4,80,40,2017
+G618,"Yardmaster",2,5,20,20,2014
+G619,"Yedo",2,5,180,120,2012
+G620,"You Robot",4,10,20,20,2009
+G621,"Zendo",2,6,60,15,2001
+G622,"Zeus on the Loose",2,5,15,15,2006
+G623,"Zombie Fluxx",2,6,40,10,2007
+G624,"Zooloretto",2,5,45,45,2007
+G99,"Test save game",2,4,30,10,2024

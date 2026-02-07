@@ -96,3 +96,14 @@ void HashTable::display() {
         }
     }
 }
+void HashTable::clear() {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        HashNode* current = table[i];
+        while (current != nullptr) {
+            HashNode* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        table[i] = nullptr;
+    }
+}

@@ -1,49 +1,88 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <limits>
+#include <cctype>
+
 #include "Game.h"
 #include "Member.h"
 #include "GameManager.h"
 #include "HashTable.h"
 #include "BorrowRecord.h"
 #include "Review.h"
+#include "Admin.h"
+
 using namespace std;
 
-//global storage
+// ===================== GLOBAL STORAGE =====================
 const int MAX_GAMES = 1000;
 const int MAX_MEMBERS = 100;
 const int MAX_RECORDS = 1000;
 const int MAX_REVIEWS = 1000;
+
 Game games[MAX_GAMES];
 Member members[MAX_MEMBERS];
 BorrowRecord records[MAX_RECORDS];
 Review reviews[MAX_REVIEWS];
+
 int gameCount = 0;
 int memberCount = 0;
 int recordCount = 0;
 int reviewCount = 0;
+
 HashTable gameHash;
 
-//HELPER FUNCTIONS
+// ===================== FORWARD DECLARATIONS =====================
+string getCurrentDate();
+void clearInputBuffer();
+void pauseScreen();
 
-//helper function to get current date as string
+int findMember(string memberID);
+
+bool borrowGame(string memberID, string gameID);
+bool returnGame(string gameID);
+
+void displayGameDetails(string gameID);
+void merge(Game arr[], int left, int mid, int right);
+void mergeSort(Game arr[], int left, int right);
+int searchByPlayerCount(int numPlayers, Game results[], int maxResults);
+void displaySearchResults(Game results[], int count);
+
+bool addReview(string memberID, string gameID, int rating, string reviewText);
+double calculateAverageRating(string gameID);
+void displayReviewsForGame(string gameID);
+
+void memberBorrowGame(string memberID);
+void memberReturnGame(string memberID);
+void displayMemberBorrowedGames(string memberID);
+void memberAddReview(string memberID);
+void memberMenu();
+
+void searchGamesByPlayers();
+void displayGameWithReviews();
+void searchMenu();
+
+void adminMenu();   // stays in this file
+void mainMenu();
+
+// (optional but safe) forward declare save (GameManager.h already has it)
+bool saveGamesToCSV(string filename, Game games[], int gameCount);
+
+// ===================== HELPER FUNCTIONS =====================
 string getCurrentDate() {
     return "2026-01-18";
 }
 
-//helper function to clear input buffer
 void clearInputBuffer() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-//helper function to pause screen
 void pauseScreen() {
     cout << "\nPress Enter to continue...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-//function to find member by ID
+// find member by ID
 int findMember(string memberID) {
     for (int i = 0; i < memberCount; i++) {
         if (members[i].getMemberID() == memberID) {
@@ -53,8 +92,7 @@ int findMember(string memberID) {
     return -1;
 }
 
-//BORROW AND RETURN FUNCTIONS
-
+// ===================== BORROW / RETURN =====================
 bool borrowGame(string memberID, string gameID) {
     int memberIndex = findMember(memberID);
     if (memberIndex == -1) {
@@ -82,8 +120,8 @@ bool borrowGame(string memberID, string gameID) {
     records[recordCount] = BorrowRecord(gameID, memberID, getCurrentDate());
     recordCount++;
 
-    cout << "\nSUCCESS: " << members[memberIndex].getName() << " borrowed \""
-        << games[gameIndex].getTitle() << "\"" << endl;
+    cout << "\nSUCCESS: " << members[memberIndex].getName()
+        << " borrowed \"" << games[gameIndex].getTitle() << "\"" << endl;
 
     return true;
 }
@@ -123,13 +161,13 @@ bool returnGame(string gameID) {
         }
     }
 
-    cout << "\nSUCCESS: " << members[memberIndex].getName() << " returned \""
-        << games[gameIndex].getTitle() << "\"" << endl;
+    cout << "\nSUCCESS: " << members[memberIndex].getName()
+        << " returned \"" << games[gameIndex].getTitle() << "\"" << endl;
 
     return true;
 }
 
-//SEARCH FUNCTIONS
+// ===================== SEARCH / DISPLAY =====================
 void displayGameDetails(string gameID) {
     int index = gameHash.search(gameID);
     if (index == -1) {
@@ -139,6 +177,7 @@ void displayGameDetails(string gameID) {
     games[index].display();
 }
 
+// merge sort by year (for search results)
 void merge(Game arr[], int left, int mid, int right) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -146,48 +185,29 @@ void merge(Game arr[], int left, int mid, int right) {
     Game* L = new Game[n1];
     Game* R = new Game[n2];
 
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = arr[mid + 1 + j];
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
 
     int i = 0, j = 0, k = left;
 
     while (i < n1 && j < n2) {
-        if (L[i].getYear() <= R[j].getYear()) {
-            arr[k] = L[i];
-            i++;
-        }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
+        if (L[i].getYear() <= R[j].getYear()) arr[k++] = L[i++];
+        else arr[k++] = R[j++];
     }
 
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
 
     delete[] L;
     delete[] R;
 }
 
 void mergeSort(Game arr[], int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
-    }
+    if (left >= right) return;
+    int mid = left + (right - left) / 2;
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
 }
 
 int searchByPlayerCount(int numPlayers, Game results[], int maxResults) {
@@ -196,15 +216,11 @@ int searchByPlayerCount(int numPlayers, Game results[], int maxResults) {
     for (int i = 0; i < gameCount && count < maxResults; i++) {
         if (games[i].getMinPlayers() <= numPlayers &&
             games[i].getMaxPlayers() >= numPlayers) {
-            results[count] = games[i];
-            count++;
+            results[count++] = games[i];
         }
     }
 
-    if (count > 0) {
-        mergeSort(results, 0, count - 1);
-    }
-
+    if (count > 0) mergeSort(results, 0, count - 1);
     return count;
 }
 
@@ -218,15 +234,14 @@ void displaySearchResults(Game results[], int count) {
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << "ID    | Title                              | Year | Players | Status" << endl;
     cout << "--------------------------------------------------------------------------------" << endl;
+
     for (int i = 0; i < count; i++) {
         cout << results[i].getGameID() << " | ";
 
         string title = results[i].getTitle();
-        if (title.length() > 34) {
-            title = title.substr(0, 31) + "...";
-        }
+        if (title.length() > 34) title = title.substr(0, 31) + "...";
         cout << title;
-        for (int j = title.length(); j < 34; j++) cout << " ";
+        for (int j = (int)title.length(); j < 34; j++) cout << " ";
 
         cout << " | " << results[i].getYear() << " | ";
         cout << results[i].getMinPlayers() << "-" << results[i].getMaxPlayers();
@@ -234,10 +249,11 @@ void displaySearchResults(Game results[], int count) {
         else cout << " ";
         cout << " | " << results[i].getStatus() << endl;
     }
+
     cout << "--------------------------------------------------------------------------------" << endl;
 }
 
-//REVIEW FUNCTIONS
+// ===================== REVIEW FUNCTIONS =====================
 bool addReview(string memberID, string gameID, int rating, string reviewText) {
     if (rating < 1 || rating > 10) {
         cout << "ERROR: Rating must be between 1 and 10!" << endl;
@@ -271,8 +287,7 @@ bool addReview(string memberID, string gameID, int rating, string reviewText) {
 }
 
 double calculateAverageRating(string gameID) {
-    int totalRating = 0;
-    int count = 0;
+    int totalRating = 0, count = 0;
 
     for (int i = 0; i < reviewCount; i++) {
         if (reviews[i].getGameID() == gameID) {
@@ -307,16 +322,14 @@ void displayReviewsForGame(string gameID) {
         }
     }
 
-    if (count == 0) {
-        cout << "No reviews yet for this game." << endl;
-    }
+    if (count == 0) cout << "No reviews yet for this game." << endl;
     else {
         double avgRating = (double)totalRating / count;
         cout << "\nAverage Rating: " << avgRating << "/10 (" << count << " reviews)" << endl;
     }
 }
 
-//MEMBER FUNCTIONS
+// ===================== MEMBER MENU FUNCTIONS =====================
 void memberBorrowGame(string memberID) {
     cout << "\n=== Borrow Game ===" << endl;
 
@@ -331,7 +344,6 @@ void memberBorrowGame(string memberID) {
 void memberReturnGame(string memberID) {
     cout << "\n=== Return Game ===" << endl;
 
-    //show member's borrowed games first
     int memberIndex = findMember(memberID);
     if (memberIndex != -1) {
         cout << "\nYour currently borrowed games:" << endl;
@@ -343,7 +355,6 @@ void memberReturnGame(string memberID) {
     cin >> gameID;
     clearInputBuffer();
 
-    //check if this member borrowed the game
     int gameIndex = gameHash.search(gameID);
     if (gameIndex == -1) {
         cout << "ERROR: Game not found!" << endl;
@@ -398,7 +409,50 @@ void memberAddReview(string memberID) {
     addReview(memberID, gameID, rating, reviewText);
 }
 
-//SEARCH MENU FUNCTIONS
+void memberMenu() {
+    string memberID;
+
+    cout << "\n=== Member Login ===" << endl;
+    cout << "Enter your Member ID: ";
+    cin >> memberID;
+    clearInputBuffer();
+
+    int memberIndex = findMember(memberID);
+    if (memberIndex == -1) {
+        cout << "ERROR: Member ID not found!" << endl;
+        pauseScreen();
+        return;
+    }
+
+    cout << "\nWelcome, " << members[memberIndex].getName() << "!" << endl;
+
+    int choice;
+    do {
+        cout << "\n======================================" << endl;
+        cout << "         MEMBER MENU" << endl;
+        cout << "======================================" << endl;
+        cout << "1. Borrow Game" << endl;
+        cout << "2. Return Game" << endl;
+        cout << "3. View My Borrowed Games" << endl;
+        cout << "4. Write a Review" << endl;
+        cout << "5. Logout" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+        clearInputBuffer();
+
+        switch (choice) {
+        case 1: memberBorrowGame(memberID); pauseScreen(); break;
+        case 2: memberReturnGame(memberID); pauseScreen(); break;
+        case 3: displayMemberBorrowedGames(memberID); pauseScreen(); break;
+        case 4: memberAddReview(memberID); pauseScreen(); break;
+        case 5: cout << "Logging out..." << endl; break;
+        default: cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 5);
+}
+
+// ===================== SEARCH MENU =====================
 void searchGamesByPlayers() {
     cout << "\n=== Search Games by Player Count ===" << endl;
 
@@ -407,10 +461,11 @@ void searchGamesByPlayers() {
     cin >> numPlayers;
     clearInputBuffer();
 
-    Game results[MAX_GAMES];
+    // heap allocate to avoid big stack warning
+    Game* results = new Game[MAX_GAMES];
     int count = searchByPlayerCount(numPlayers, results, MAX_GAMES);
-
     displaySearchResults(results, count);
+    delete[] results;
 }
 
 void displayGameWithReviews() {
@@ -433,87 +488,11 @@ void displayGameWithReviews() {
     cin >> choice;
     clearInputBuffer();
 
-    if (choice == 'y' || choice == 'Y') {
-        displayReviewsForGame(gameID);
-    }
-}
-
-//MENU FUNCTIONS
-void adminMenu() {
-    cout << "\n======================================" << endl;
-    cout << "         ADMIN MENU (HAVENT IMPLEMENT)" << endl;
-    cout << "======================================" << endl;
-    cout << "1. Add New Game" << endl;
-    cout << "2. Remove Game" << endl;
-    cout << "3. Add New Member" << endl;
-    cout << "4. Display All Transactions" << endl;
-    cout << "5. Back to Main Menu" << endl;
-    cout << "======================================" << endl;
-    pauseScreen();
-}
-
-void memberMenu() {
-    string memberID;
-
-    cout << "\n=== Member Login ===" << endl;
-    cout << "Enter your Member ID: ";
-    cin >> memberID;
-    clearInputBuffer();
-
-    int memberIndex = findMember(memberID);
-    if (memberIndex == -1) {
-        cout << "ERROR: Member ID not found!" << endl;
-        pauseScreen();
-        return;
-    }
-
-    cout << "\nWelcome, " << members[memberIndex].getName() << "!" << endl;
-
-    int choice;
-
-    do {
-        cout << "\n======================================" << endl;
-        cout << "         MEMBER MENU" << endl;
-        cout << "======================================" << endl;
-        cout << "1. Borrow Game" << endl;
-        cout << "2. Return Game" << endl;
-        cout << "3. View My Borrowed Games" << endl;
-        cout << "4. Write a Review" << endl;
-        cout << "5. Logout" << endl;
-        cout << "======================================" << endl;
-        cout << "Enter choice: ";
-        cin >> choice;
-        clearInputBuffer();
-
-        switch (choice) {
-        case 1:
-            memberBorrowGame(memberID);
-            pauseScreen();
-            break;
-        case 2:
-            memberReturnGame(memberID);
-            pauseScreen();
-            break;
-        case 3:
-            displayMemberBorrowedGames(memberID);
-            pauseScreen();
-            break;
-        case 4:
-            memberAddReview(memberID);
-            pauseScreen();
-            break;
-        case 5:
-            cout << "Logging out..." << endl;
-            break;
-        default:
-            cout << "Invalid choice! Please try again." << endl;
-        }
-    } while (choice != 5);
+    if (choice == 'y' || choice == 'Y') displayReviewsForGame(gameID);
 }
 
 void searchMenu() {
     int choice;
-
     do {
         cout << "\n======================================" << endl;
         cout << "      SEARCH & DISPLAY MENU" << endl;
@@ -527,23 +506,248 @@ void searchMenu() {
         clearInputBuffer();
 
         switch (choice) {
-        case 1:
-            displayGameWithReviews();
-            pauseScreen();
-            break;
-        case 2:
-            searchGamesByPlayers();
-            pauseScreen();
-            break;
-        case 3:
-            cout << "Returning to main menu..." << endl;
-            break;
-        default:
-            cout << "Invalid choice! Please try again." << endl;
+        case 1: displayGameWithReviews(); pauseScreen(); break;
+        case 2: searchGamesByPlayers(); pauseScreen(); break;
+        case 3: cout << "Returning to main menu..." << endl; break;
+        default: cout << "Invalid choice! Please try again." << endl;
         }
     } while (choice != 3);
 }
 
+// ===================== ADMIN SORTING DISPLAY ALL =====================
+
+static string toLowerCopy(string s) {
+    for (char& c : s) c = (char)tolower((unsigned char)c);
+    return s;
+}
+
+static void printAllGamesTable(Game arr[], int count) {
+    cout << "\n--------------------------------------------------------------------------------\n";
+    cout << "No | GameID | Title                               | Year | BorrowCount | Status\n";
+    cout << "--------------------------------------------------------------------------------\n";
+
+    for (int i = 0; i < count; i++) {
+        cout << (i + 1) << "  | ";
+        cout << arr[i].getGameID() << "  | ";
+
+        string title = arr[i].getTitle();
+        if (title.length() > 35) title = title.substr(0, 32) + "...";
+        cout << title;
+        for (int s = (int)title.length(); s < 35; s++) cout << " ";
+
+        cout << " | " << arr[i].getYear() << " | ";
+        cout << arr[i].getBorrowCount() << "          | ";
+        cout << arr[i].getStatus() << "\n";
+    }
+
+    cout << "--------------------------------------------------------------------------------\n";
+}
+
+// Tie-breakers:
+// Title sort: Title -> GameID
+// Borrow sort: BorrowCount -> Title -> GameID
+static bool lessTitleAsc(Game& a, Game& b) {
+    string ta = toLowerCopy(a.getTitle());
+    string tb = toLowerCopy(b.getTitle());
+    if (ta != tb) return ta < tb;
+    return a.getGameID() < b.getGameID();
+}
+
+static bool lessTitleDesc(Game& a, Game& b) {
+    string ta = toLowerCopy(a.getTitle());
+    string tb = toLowerCopy(b.getTitle());
+    if (ta != tb) return ta > tb;
+    return a.getGameID() < b.getGameID();
+}
+
+static bool lessBorrowDesc(Game& a, Game& b) {
+    int ba = a.getBorrowCount();
+    int bb = b.getBorrowCount();
+    if (ba != bb) return ba > bb;
+
+    string ta = toLowerCopy(a.getTitle());
+    string tb = toLowerCopy(b.getTitle());
+    if (ta != tb) return ta < tb;
+
+    return a.getGameID() < b.getGameID();
+}
+
+static bool lessBorrowAsc(Game& a, Game& b) {
+    int ba = a.getBorrowCount();
+    int bb = b.getBorrowCount();
+    if (ba != bb) return ba < bb;
+
+    string ta = toLowerCopy(a.getTitle());
+    string tb = toLowerCopy(b.getTitle());
+    if (ta != tb) return ta < tb;
+
+    return a.getGameID() < b.getGameID();
+}
+
+static void mergeGeneric(Game arr[], int left, int mid, int right,
+    bool (*lessFn)(Game&, Game&)) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    Game* L = new Game[n1];
+    Game* R = new Game[n2];
+
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (lessFn(L[i], R[j])) arr[k++] = L[i++];
+        else                    arr[k++] = R[j++];
+    }
+
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+
+    delete[] L;
+    delete[] R;
+}
+
+static void mergeSortGeneric(Game arr[], int left, int right,
+    bool (*lessFn)(Game&, Game&)) {
+    if (left >= right) return;
+    int mid = left + (right - left) / 2;
+    mergeSortGeneric(arr, left, mid, lessFn);
+    mergeSortGeneric(arr, mid + 1, right, lessFn);
+    mergeGeneric(arr, left, mid, right, lessFn);
+}
+
+static void adminDisplayAllGamesSortedMenu(Game gamesArr[], int count) {
+    if (count <= 0) {
+        cout << "No games to display.\n";
+        return;
+    }
+
+    int choice;
+    do {
+        cout << "\n======================================\n";
+        cout << "   DISPLAY ALL GAMES (SORT OPTIONS)\n";
+        cout << "======================================\n";
+        cout << "1) Title A -> Z (tie: GameID A->Z)\n";
+        cout << "2) Title Z -> A (tie: GameID A->Z)\n";
+        cout << "3) BorrowCount High -> Low (tie: Title A->Z, then GameID A->Z)\n";
+        cout << "4) BorrowCount Low -> High (tie: Title A->Z, then GameID A->Z)\n";
+        cout << "0) Back\n";
+        cout << "Choice: ";
+
+        if (!(cin >> choice)) {
+            clearInputBuffer();
+            cout << "❌ Invalid input.\n";
+            continue;
+        }
+        clearInputBuffer();
+
+        if (choice == 0) break;
+
+        Game* temp = new Game[count];
+        for (int i = 0; i < count; i++) temp[i] = gamesArr[i];
+
+        switch (choice) {
+        case 1:
+            mergeSortGeneric(temp, 0, count - 1, lessTitleAsc);
+            cout << "\n=== ALL GAMES SORTED BY TITLE (A -> Z) ===\n";
+            printAllGamesTable(temp, count);
+            break;
+        case 2:
+            mergeSortGeneric(temp, 0, count - 1, lessTitleDesc);
+            cout << "\n=== ALL GAMES SORTED BY TITLE (Z -> A) ===\n";
+            printAllGamesTable(temp, count);
+            break;
+        case 3:
+            mergeSortGeneric(temp, 0, count - 1, lessBorrowDesc);
+            cout << "\n=== ALL GAMES SORTED BY BORROWCOUNT (HIGH -> LOW) ===\n";
+            printAllGamesTable(temp, count);
+            break;
+        case 4:
+            mergeSortGeneric(temp, 0, count - 1, lessBorrowAsc);
+            cout << "\n=== ALL GAMES SORTED BY BORROWCOUNT (LOW -> HIGH) ===\n";
+            printAllGamesTable(temp, count);
+            break;
+        default:
+            cout << "❌ Invalid option.\n";
+            break;
+        }
+
+        delete[] temp;
+
+    } while (choice != 0);
+}
+
+// ===================== ADMIN MENU (UPDATED WITH SAVE) =====================
+void adminMenu() {
+    int choice;
+
+    do {
+        cout << "\n======================================" << endl;
+        cout << "               ADMIN MENU" << endl;
+        cout << "======================================" << endl;
+        cout << "1. Add New Game" << endl;
+        cout << "2. Remove Game" << endl;
+        cout << "3. Add New Member" << endl;
+        cout << "4. Display Summary of Games Borrowed/Returned" << endl;
+        cout << "5. Display ALL Games (Sorted)" << endl;
+        cout << "6. Save Games to CSV (Persist Changes)" << endl;
+        cout << "7. Back to Main Menu" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter choice: ";
+
+        if (!(cin >> choice)) {
+            clearInputBuffer();
+            cout << "Invalid input! Please enter a number.\n";
+            pauseScreen();
+            continue;
+        }
+        clearInputBuffer();
+
+        switch (choice) {
+        case 1:
+            adminAddGame(games, gameCount, MAX_GAMES, gameHash);
+            pauseScreen();
+            break;
+        case 2:
+            adminRemoveGame(games, gameCount, gameHash);
+            pauseScreen();
+            break;
+        case 3:
+            adminAddMember(members, memberCount, MAX_MEMBERS);
+            pauseScreen();
+            break;
+        case 4:
+            adminDisplaySummary(games, gameCount);
+            pauseScreen();
+            break;
+        case 5:
+            adminDisplayAllGamesSortedMenu(games, gameCount);
+            pauseScreen();
+            break;
+        case 6:
+            if (saveGamesToCSV("games.csv", games, gameCount)) {
+                cout << "✅ Saved successfully.\n";
+            }
+            else {
+                cout << "❌ Save failed.\n";
+            }
+            pauseScreen();
+            break;
+        case 7:
+            cout << "Returning to main menu...\n";
+            break;
+        default:
+            cout << "Invalid choice! Please try again.\n";
+            pauseScreen();
+            break;
+        }
+
+    } while (choice != 7);
+}
+
+// ===================== MAIN MENU =====================
 void mainMenu() {
     int choice;
 
@@ -561,15 +765,9 @@ void mainMenu() {
         clearInputBuffer();
 
         switch (choice) {
-        case 1:
-            adminMenu();
-            break;
-        case 2:
-            memberMenu();
-            break;
-        case 3:
-            searchMenu();
-            break;
+        case 1: adminMenu(); break;
+        case 2: memberMenu(); break;
+        case 3: searchMenu(); break;
         case 4:
             cout << "\nThank you for using NPTTGC Board Game Management System!" << endl;
             break;
@@ -579,21 +777,21 @@ void mainMenu() {
     } while (choice != 4);
 }
 
-int main()
-{
-    //load games from CSV
+// ===================== MAIN =====================
+int main() {
     cout << "Loading games from database..." << endl;
-    gameCount = loadGamesFromCSV("C:\\Users\\milok\\Downloads\\games.csv", games, MAX_GAMES);
+
+    // ✅ Working Directory is $(ProjectDir), and games.csv is in the project folder
+    gameCount = loadGamesFromCSV("games.csv", games, MAX_GAMES);
 
     if (gameCount == 0) {
         cout << "Failed to load games. Exiting." << endl;
         return 1;
     }
 
-    //build hash table
     buildHashTable(games, gameCount, gameHash);
 
-    //create some test members
+    // test members
     members[0] = Member("M001", "Alice Tan", "alice@email.com");
     members[1] = Member("M002", "Bob Lee", "bob@email.com");
     members[2] = Member("M003", "Charlie Wong", "charlie@email.com");
@@ -602,6 +800,7 @@ int main()
     cout << "\nSystem initialized successfully!" << endl;
     cout << "Test members created: M001, M002, M003" << endl;
 
-    //start main menu
     mainMenu();
+    return 0;
 }
+    
