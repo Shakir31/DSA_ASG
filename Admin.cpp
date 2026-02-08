@@ -65,6 +65,7 @@ static void mergeSortByBorrowCount(Game arr[], int left, int right, bool descend
 }
 
 // ===================== MERGE SORT: TITLE =====================
+/*
 static void mergeByTitle(Game arr[], int left, int mid, int right, bool ascending) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -103,7 +104,7 @@ static void mergeSortByTitle(Game arr[], int left, int right, bool ascending) {
     mergeSortByTitle(arr, mid + 1, right, ascending);
     mergeByTitle(arr, left, mid, right, ascending);
 }
-
+*/
 // ===================== DISPLAY LIST HELPER =====================
 static void printGameList(Game arr[], int count) {
     cout << "\n--------------------------------------------------------------------------------\n";

@@ -4,7 +4,7 @@ NPTTGC Board Game Management System
 ============================================================
 Team Members: Shakir, Ethan
 Group:        Team 5
-Student IDs:  S10269080A, S10266834
+Student IDs:  S10269080A, S10266834C
 ============================================================
 Features Highlighted:
 - Hash Table for O(1) game lookup by Game ID
@@ -1275,6 +1275,8 @@ Return      : int - 0 on success, 1 if CSV fails to load
 int main() {
     cout << "Loading games from database..." << endl;
     gameCount = loadGamesFromCSV("games.csv", games, MAX_GAMES);
+    //if program does not load 629 games, use full path like the example below
+    //gameCount = loadGamesFromCSV("C:\\Users\\milok\\Downloads\\games.csv", games, MAX_GAMES);
 
     if (gameCount == 0) {
         cout << "Failed to load games. Exiting." << endl;
