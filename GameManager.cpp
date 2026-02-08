@@ -22,6 +22,40 @@ string trim(string str) {
 
 /*
 ============================================================
+Function    : parseCSVField
+Description : Extracts the next field from a CSV line,
+              respecting quotes. Handles commas inside quotes.
+Input       : line - CSV line string (string&)
+              pos - current position in line (size_t&)
+Return      : string - the extracted field
+============================================================
+*/
+string parseCSVField(const string& line, size_t& pos) {
+    string field;
+    bool inQuotes = false;
+
+    while (pos < line.length()) {
+        char c = line[pos];
+
+        if (c == '"') {
+            inQuotes = !inQuotes;
+            pos++;
+        }
+        else if (c == ',' && !inQuotes) {
+            pos++; // Skip the comma
+            break;
+        }
+        else {
+            field += c;
+            pos++;
+        }
+    }
+
+    return trim(field);
+}
+
+/*
+============================================================
 Function    : loadGamesFromCSV
 Description : Reads a CSV file and loads game data into the
               games array. Parses each line, validates data,
@@ -41,7 +75,7 @@ int loadGamesFromCSV(string filename, Game games[], int maxSize) {
     }
 
     string line;
-    getline(file, line); // header
+    getline(file, line); // Skip header
 
     int count = 0;
     int autoIdCounter = 1;
@@ -50,67 +84,46 @@ int loadGamesFromCSV(string filename, Game games[], int maxSize) {
         line = trim(line);
         if (line.empty()) continue;
 
-        stringstream ss(line);
-        string c1, c2, c3, c4, c5, c6, c7;
+        // Parse CSV fields manually without STL
+        size_t pos = 0;
+        string name = parseCSVField(line, pos);
+        string minP = parseCSVField(line, pos);
+        string maxP = parseCSVField(line, pos);
+        string maxTime = parseCSVField(line, pos);
+        string minTime = parseCSVField(line, pos);
+        string year = parseCSVField(line, pos);
 
-        getline(ss, c1, ','); // gameID OR title
-        getline(ss, c2, ',');
-        getline(ss, c3, ',');
-        getline(ss, c4, ',');
-        getline(ss, c5, ',');
-        getline(ss, c6, ',');
-        getline(ss, c7, ',');
-
-        c1 = trim(c1); c2 = trim(c2); c3 = trim(c3);
-        c4 = trim(c4); c5 = trim(c5); c6 = trim(c6); c7 = trim(c7);
-
-        bool newFormat = !c7.empty();
-
-        string gameID, title, minP, maxP, maxTime, minTime, year;
-
-        if (newFormat) {
-            gameID = c1;
-            title = c2;
-            minP = c3;
-            maxP = c4;
-            maxTime = c5;
-            minTime = c6;
-            year = c7;
-        }
-        else {
-            title = c1;
-            minP = c2;
-            maxP = c3;
-            maxTime = c4;
-            minTime = c5;
-            year = c6;
-
-            gameID = "G";
-            if (autoIdCounter < 10) gameID += "00";
-            else if (autoIdCounter < 100) gameID += "0";
-            gameID += to_string(autoIdCounter++);
+        // Validate
+        if (name.empty() || minP.empty() || maxP.empty() || year.empty()) {
+            continue;
         }
 
-        if (!title.empty() && title.front() == '"' && title.back() == '"') {
-            title = title.substr(1, title.length() - 2);
-        }
+        // Generate Game ID
+        string gameID = "G";
+        if (autoIdCounter < 10) gameID += "00";
+        else if (autoIdCounter < 100) gameID += "0";
+        gameID += to_string(autoIdCounter);
 
+        // Convert to integers with error checking
         try {
-            games[count++] = Game(
-                gameID,
-                title,
-                stoi(minP),
-                stoi(maxP),
-                stoi(minTime),
-                stoi(maxTime),
-                stoi(year)
-            );
+            int minPlayers = stoi(minP);
+            int maxPlayers = stoi(maxP);
+            int minPlaytime = (minTime.empty() ? 0 : stoi(minTime));
+            int maxPlaytime = (maxTime.empty() ? 0 : stoi(maxTime));
+            int yearPub = stoi(year);
+
+            games[count] = Game(gameID, name, minPlayers, maxPlayers,
+                minPlaytime, maxPlaytime, yearPub);
+            count++;
+            autoIdCounter++;
         }
         catch (...) {
+            // Skip this game if conversion fails
             continue;
         }
     }
 
+    file.close();
     cout << "\n*** Loaded " << count << " games successfully! ***\n";
     return count;
 }

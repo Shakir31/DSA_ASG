@@ -147,6 +147,9 @@
     <ClInclude Include="Member.h" />
     <ClInclude Include="Review.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\games.csv" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
